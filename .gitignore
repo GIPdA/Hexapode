@@ -16,3 +16,6 @@
 *.exe
 *.out
 *.app
+
+firmware/Output
+firmware/Output/*
