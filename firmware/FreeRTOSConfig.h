@@ -16,7 +16,7 @@
 #define configMAX_PRIORITIES		( ( unsigned portBASE_TYPE ) 5 )
 #define configUSE_TICK_HOOK			0
 #define configCPU_CLOCK_HZ			( 12000000UL )
-#define configTICK_RATE_HZ			( ( portTickType ) 1000 )
+#define configTICK_RATE_HZ			( ( portTickType ) 10000 )
 #define configMINIMAL_STACK_SIZE	( ( unsigned short ) 100 )
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( 4 * 1024 ) )
 #define configMAX_TASK_NAME_LEN		( 12 )
@@ -35,6 +35,12 @@
 #define configQUEUE_REGISTRY_SIZE		0
 #define configGENERATE_RUN_TIME_STATS	0
 #define configUSE_MALLOC_FAILED_HOOK	0
+
+/* Software timer related definitions. */
+#define configUSE_TIMERS                        1
+#define configTIMER_TASK_PRIORITY               3
+#define configTIMER_QUEUE_LENGTH                10
+#define configTIMER_TASK_STACK_DEPTH            configMINIMAL_STACK_SIZE
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */

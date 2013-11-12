@@ -1,0 +1,56 @@
+[Signal 2]
+DispName=(ulTaskNumber[1] & 0x1) >> 0
+PlotType=1
+Color=32768
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=4294967295.
+Mask=1
+Offset=0
+Adaptive=0
+DispNumber=1
+HeightFactor=0.2109375
+[Signal 3]
+DispName=(ulTaskNumber[2] & 0x1) >> 0
+PlotType=1
+Color=8388608
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=4294967295.
+Mask=1
+Offset=0
+Adaptive=0
+DispNumber=2
+HeightFactor=0.24609375
+[Signal 4]
+DispName=(ulTaskNumber[3] & 0x1) >> 0
+PlotType=1
+Color=0
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=4294967295.
+Mask=1
+Offset=0
+Adaptive=0
+DispNumber=3
+HeightFactor=0.29296875
+[Signal 5]
+DispName=ucServoLine[0] & 0x1
+PlotType=1
+Color=255
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=255.
+Mask=1
+Offset=0
+Adaptive=0
+DispNumber=4
+HeightFactor=0.25
