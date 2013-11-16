@@ -15,8 +15,8 @@ unsigned long ulTaskNumber[configEXPECTED_NO_RUNNING_TASKS];
 
 int main(void)
 {
-	
-	vInitPWM(25);
+	LPC_SC->PCONP |= ( 1 << 15 ); // power up GPIO
+	vInitPWM(24);
 
 	xTaskCreate(vTask, "Task 1", 200, NULL, 1, NULL);
 
