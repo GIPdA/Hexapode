@@ -15,8 +15,8 @@ unsigned long ulTaskNumber[configEXPECTED_NO_RUNNING_TASKS];
 
 int main(void)
 {
-
-	vTimerInit();
+	
+	vInitPWM(25);
 
 	xTaskCreate(vTask, "Task 1", 200, NULL, 1, NULL);
 
