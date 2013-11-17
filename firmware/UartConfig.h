@@ -7,4 +7,9 @@
 #define UART_3_BAUDRATE	115200
 
 
+#define UART_0_BUFFER_SIZE	64
+//#define UART_0_BUFFER_RESET_ON_POP
+//#define UART_0_BUFFER_WARNING_LIMIT	2
+
+
 #endif // _UART_CONFIG_H
