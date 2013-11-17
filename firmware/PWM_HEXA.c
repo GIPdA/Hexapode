@@ -9,12 +9,12 @@ static int Wait1;							//Attend la fin de la perdiode de 2 ms
 //static int Wait2;
 
 
-
-
 void vLoadMR0(int Compteur_PWM1);
 void GPIO_maj(int pin, int level);
+void Setup_PWM(int pin, int Valeurs);
 void vMajTab1(void);
 void vInitTab(void);
+
 
 /*****************************************************************************
 																	INIT TINMER 0 
@@ -68,7 +68,6 @@ void vLoadMR0(int Compteur_PWM1)
 																	INT TIMER 0 
 ******************************************************************************/
 
-
 void TIM0_IRQHandler(void)
 {
 	if((LPC_TIM0->IR & 0x01) == 0x01) // if MR0 interrupt
@@ -95,18 +94,32 @@ void TIM0_IRQHandler(void)
 		LPC_TIM0->TCR &= 0 << 1;
 		LPC_TIM0->TCR |= 1 << 0; // Start timer
 		
-		if((Etat_TIMER0==9)&&(Wait1==1))vMajTab1();				//Mise à jour du tableau
+		if((Etat_TIMER0==9)&(Wait1==1))vMajTab1();				//Mise à jour du tableau
 	}
 }
 
 /*****************************************************************************
+														 Changement Valeurs 
+******************************************************************************/
+
+void Setup_PWM(int pin, int Valeurs)
+{
+	if(Valeurs>199)Valeurs=199;
+	if(Valeurs<100)Valeurs=100;
+	NextTablePWM[pin]	= Valeurs;
+}
+
+
+/*****************************************************************************
 																Commande GPIO
 ******************************************************************************/
+
 void GPIO_maj(int pin, int level)
 {
 	if(level==1)LPC_GPIO0->FIOPIN |= 1 << pin; 
 	else LPC_GPIO0->FIOCLR |= 1 << pin;
 }
+
 
 /*****************************************************************************
 													Mise à jour des PWM 1 à 10
@@ -116,7 +129,7 @@ void GPIO_maj(int pin, int level)
 void vMajTab1(void)
 {
 	int i;
-	for (i=0; i<9; i++) 
+	for (i=0; i<10; i++) 
 	{
 		TablePWM[i] =	NextTablePWM[i];				
 	}
@@ -130,7 +143,7 @@ void vMajTab1(void)
 void vInitTab(void)
 {
 	int i;
-	for (i=0; i<19; i++) 
+	for (i=0; i<20; i++) 
 	{
 		NextTablePWM[i]	= 150;	
 		TablePWM[i]			=	150;				

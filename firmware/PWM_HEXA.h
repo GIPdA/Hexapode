@@ -7,6 +7,7 @@
 void vInitPWM(int Frequency); // Frequency in MHz 
 void vLoadMR0(int Compteur_PWM1); 
 void TIM0_IRQHandler(void);
+void Setup_PWM(int pin, int Valeurs);
 void vMajTab1(void);
 void vInitTab(void);
 
