@@ -17,8 +17,8 @@ unsigned long ulTaskNumber[configEXPECTED_NO_RUNNING_TASKS];
 
 int main(void)
 {
-    vUart0Init();
-    bUart0SendStr("HEXAPODE UART TEST");
+    vUart0_init();
+    bUart0_sendStr("HEXAPODE UART TEST");
 
 
     xTaskCreate(vTask, "Task 1", 200, NULL, 1, NULL);

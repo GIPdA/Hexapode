@@ -3,149 +3,55 @@
 #include "uart0.h"
 #include "uart_private.h"
 
+#include "SizedRingBuffer.h"
+
 #include "UartConfig.h"
 
 #include "system_specific.h"
 
 
-#ifndef UART_0_BAUDRATE
-#error UART 0 baudrate is not specified. Please define UART_0_BAUDRATE in UartConfig.h to desired baudrate.
+#ifndef UART0_BAUDRATE
+#error UART 0 baudrate is not specified. Please define UART0_BAUDRATE in UartConfig.h to desired baudrate.
 #endif
 
 #ifndef OSC_CLK
 #error System Core Clock is not specified. Please define OSC_CLK in system_specific.h.
 #endif
 
-#ifndef UART_0_BUFFER_SIZE
-#error Buffer size of UART 0 not defined. Please define UART_0_BUFFER_SIZE in UartConfig.h to desired buffer size.
+#ifndef UART0_RX_BUFFER_SIZE
+#error Rx buffer size of UART 0 not defined. Please define UART0_RX_BUFFER_SIZE in UartConfig.h to desired buffer size.
 #endif
 
-#ifndef UART_0_BUFFER_WARNING_LIMIT
-#warning Buffer warning limit of UART 0 not user-defined. Limit defaults to 1.
-#define UART_0_BUFFER_WARNING_LIMIT 1
+#ifndef UART0_TX_BUFFER_SIZE
+#error Tx buffer size of UART 0 not defined. Please define UART0_TX_BUFFER_SIZE in UartConfig.h to desired buffer size.
 #endif
 
 
-#define DIVISOR_LATCH_VALUE(PCLK,Baudrate)   ((PCLK) / 16 / (Baudrate))
-#define DIVISOR_LATCH_LSB(PCLK,Baudrate)     (DIVISOR_LATCH_VALUE(PCLK,Baudrate) &0xFF)
-#define DIVISOR_LATCH_MSB(PCLK,Baudrate)     ((DIVISOR_LATCH_VALUE(PCLK,Baudrate) >> 8)&0xFF)
+#define DIVISOR_LATCH_VALUE(PCLK,BAUDRATE)   ((PCLK) / 16 / (BAUDRATE))
+#define DIVISOR_LATCH_LSB(PCLK,BAUDRATE)     (DIVISOR_LATCH_VALUE(PCLK,BAUDRATE) &0xFF)
+#define DIVISOR_LATCH_MSB(PCLK,BAUDRATE)     ((DIVISOR_LATCH_VALUE(PCLK,BAUDRATE) >> 8)&0xFF)
 
 
-static volatile uint8_t pu8Buffer[UART_0_BUFFER_SIZE];
-static volatile uint16_t pu16BufferCount;
-static volatile uint16_t pu16BufferStart;
-static volatile uint16_t pu16BufferEnd;
+static uint8_t u8RxBuffer[UART0_RX_BUFFER_SIZE];
+static uint8_t u8TxBuffer[UART0_TX_BUFFER_SIZE];
 
-
-void vBufferInit()
-{
-    pu16BufferStart = 0;
-    pu16BufferCount = 0;
-    pu16BufferEnd = 0;
-}
-
-xBufferState xBufferPush(uint8_t u8Byte)
-{
-    // Buffer is full, this byte would overflow the buffer: ignore it
-    if (bBufferIsFull())
-        return Overflow;
-
-    // Store byte in buffer at end index
-    pu8Buffer[pu16BufferEnd++] = u8Byte;
-
-    ++pu16BufferCount;
-
-    if (pu16BufferEnd >= UART_0_BUFFER_SIZE) // Ring buffer, back to zero if max size reached
-        pu16BufferEnd = 0;
-
-    // Buffer is now full
-    if (bBufferIsFull())
-        return Full;
-
-    // Buffer is almost full
-    if (pu16BufferCount == UART_0_BUFFER_SIZE - UART_0_BUFFER_WARNING_LIMIT)
-        return AlmostFull;
-
-    return Ok;
-}
-
-xBufferState xBufferPop(uint8_t *u8Byte)
-{
-    if (!u8Byte) return Error;
-
-    if (bBufferIsEmpty())
-        return Empty;
-
-    // Get byte
-    u8Byte = pu8Buffer[pu16BufferStart];
-
- #ifdef UART_0_BUFFER_RESET_ON_POP
-    pu8Buffer[pu16BufferStart] = 0;
- #endif
-
-    ++pu16BufferStart;
-
-    --pu16BufferCount;
-
-    if (pu16BufferStart >= UART_0_BUFFER_SIZE) // Ring buffer, back to zero if max size reached
-        pu16BufferStart = 0;
-
-    // Buffer is now empty
-    if (bBufferIsEmpty())
-        return NowEmpty;
-
-    return Ok;
-}
-
-xBufferState xBufferPeek(uint8_t *u8Byte)
-{
-    if (!u8Byte) return Error;
-
-    if (bBufferIsEmpty())
-        return Empty;
-
-    // Get byte
-    u8Byte = pu8Buffer[pu16BufferStart];
-
-    return Ok;
-}
-
-
-xBufferState xBufferState()
-{
-    if (bBufferIsEmpty())
-        return Empty;
-    if (bBufferIsFull())
-        return Full;
-    if (pu16BufferCount == UART_0_BUFFER_SIZE - UART_0_BUFFER_WARNING_LIMIT)
-        return AlmostFull;
-
-    return Ok;
-}
-
-uint16_t u16BufferCount()
-{
-    return pu16BufferCount;
-}
-
-bool bBufferIsEmpty()
-{
-    return (pu16BufferCount == 0);
-}
-
-bool bBufferIsFull()
-{
-    return (pu16BufferCount == UART_0_BUFFER_SIZE);
-}
+static xSizedRingBuffer xRxRingBuffer = RINGBUFFER_COMPILETIME_INIT(u8RxBuffer,UART0_RX_BUFFER_SIZE);
+static xSizedRingBuffer xTxRingBuffer = RINGBUFFER_COMPILETIME_INIT(u8TxBuffer,UART0_TX_BUFFER_SIZE);
 
 
 
 
-void vUart0Init()
+/**
+ * @brief Init UART 0 to 8-bit, no parity, 1 stop
+ *  Baudrate is defined by UART_0_BAUDRATE
+ *
+ * @return None
+ */
+void vUart0_init()
 {
     int pclk;
 
-    vBufferInit();
+    //Init buffers
 
     // PCLK_UART0 is being set to 1/4 of SystemCoreClock
     pclk = OSC_CLK / 4;
@@ -164,8 +70,8 @@ void vUart0Init()
     LPC_UART0->LCR = 0x83;      // 8 bits, no Parity, 1 Stop bit, DLAB=1
 
     // Set baudrate
-    LPC_UART0->DLM = DIVISOR_LATCH_MSB(pclk, UART_0_BAUDRATE);                            
-    LPC_UART0->DLL = DIVISOR_LATCH_LSB(pclk, UART_0_BAUDRATE); 
+    LPC_UART0->DLM = DIVISOR_LATCH_MSB(pclk, UART0_BAUDRATE);                            
+    LPC_UART0->DLL = DIVISOR_LATCH_LSB(pclk, UART0_BAUDRATE); 
 
     LPC_UART0->LCR = 0x03;      // 8 bits, no Parity, 1 Stop bit DLAB = 0
     LPC_UART0->FCR = 0x07;      // Enable and reset TX and RX FIFO
@@ -180,8 +86,9 @@ void vUart0Init()
 /**
  * @brief Send a byte over UART
  * @todo Add timeout
+ * @todo Use ringbuffer
  */
-bool bUart0SendByte(const uint8 u8Byte)
+bool bUart0_sendByte(const uint8 u8Byte)
 {
     while ((LPC_UART0->LSR & LSR_THRE) == 0);  // Block until tx empty
 
@@ -193,8 +100,9 @@ bool bUart0SendByte(const uint8 u8Byte)
 /**
  * @brief Get a byte from UART
  * @todo Add timeout
+ * @todo Use ringbuffer
  */
-uint8 u8Uart0GetByte()
+uint8 u8Uart0_getByte()
 {
     while ((LPC_UART0->LSR & LSR_RDR) == 0);  // Nothing received so just block
 
@@ -204,33 +112,40 @@ uint8 u8Uart0GetByte()
 /**
  * @brief Send a string over UART
  * @todo Add timeout
+ * @todo Use ringbuffer
  */
-bool bUart0SendStr(char *pcString)
+bool bUart0_sendStr(char *pcString)
 {
     for (; pcString[0] != '\0'; pcString++) // Loop through until reach string's zero terminator
-        if (bUart0SendByte(pcString[0]) == false)
+        if (bUart0_sendByte(pcString[0]) == false)
             return false;
-	return true;
+    return true;
 }
 
 /**
  * @brief Send a string over UART
  * @todo Add timeout
+ * @todo Use ringbuffer
  */
-bool bUart0SendConstStr(const char * const pcString)
+bool bUart0_sendConstStr(const char * const pcString)
 {
-    for (uint32 i = 0; pcString[i] != '\0'; i++)
-        if (bUart0SendByte(pcString[i]) == false)
+    uint32_t i;
+    for (i = 0; pcString[i] != '\0'; i++)
+        if (bUart0_sendByte(pcString[i]) == false)
             return false;
     return true;
 }
 
 
 
+/**
+ * @brief UART 0 IRQ handler
+ * @todo Use ring buffer
+ */
 void UART0_IRQHandler (void) 
 {
   uint8_t IIRValue, LSRValue;
-  uint8_t u8Dummy;
+  uint8_t u8Dummy = u8Dummy;    // Avoid warning
         
   IIRValue = LPC_UART0->IIR;
     
@@ -246,7 +161,7 @@ void UART0_IRQHandler (void)
         {
           // There are errors or break interrupt
           // Read LSR will clear the interrupt
-          UART0Status = LSRValue;
+          //UART0Status = LSRValue;
           u8Dummy = LPC_UART0->RBR;                // Dummy read on RX to clear interrupt, then bail out
           return;
         }
@@ -256,30 +171,30 @@ void UART0_IRQHandler (void)
         {
           // If no error on RLS, normal ready, save into the data buffer.
           // Note: read RBR will clear the interrupt
-          UART0Buffer[UART0Count] = LPC_UART0->RBR;
+          /*UART0Buffer[UART0Count] = LPC_UART0->RBR;
           UART0Count++;
           if (UART0Count == BUFSIZE)
           {
                 UART0Count = 0;                // buffer overflow
-          }        
+          } // */       
         }
   }
 
   // Receive Data Available
   else if (IIRValue == IIR_RDA)
   {
-        UART0Buffer[UART0Count] = LPC_UART0->RBR;
+        /*UART0Buffer[UART0Count] = LPC_UART0->RBR;
         UART0Count++;
         if ( UART0Count == BUFSIZE )
         {
           UART0Count = 0;                // buffer overflow
-        }
+        }// */
   }
 
   // Character timeout indicator
   else if (IIRValue == IIR_CTI)
   {
-        UART0Status |= 0x100;                // Bit 9 as the CTI error
+        //UART0Status |= 0x100;                // Bit 9 as the CTI error
   }
 
   // THRE, transmit holding register empty
@@ -289,11 +204,11 @@ void UART0_IRQHandler (void)
 
         if ( LSRValue & LSR_THRE )
         {
-          UART0TxEmpty = 1;
+          //UART0TxEmpty = 1;
         }
         else
         {
-          UART0TxEmpty = 0;
+          //UART0TxEmpty = 0;
         }
   }
     
