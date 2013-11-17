@@ -1,11 +1,31 @@
+/*! ************************************************************************** *
+ * @file PWM_HEXA.c
+ * @brief librairie de controle hexapode
+ *
+ * Cette librairie permet de generé 20 PWM de cerveaux moteur sur le port 0
+ * avec les timers 0 et 1.
+ * 
+ * Le lancement des PWM s'effectue avec la fonction vInitPWM(FREQUENCE) et 
+ * on peut modifier le rapport cyclique de chaque PWM avec Setup_PWM(PIN,TEMPS).
+ * PIN   = 1 => PORT0.1           (0<PIN<19)
+ * TEMPS = 100 => 100*10us = 1ms  (100<TEMPS<200)
+ *
+ *
+ * @author Cédric CHRETIEN
+ * @version 1.0
+ *
+ * @changelog 17-11-2013
+ *
+ *  ************************************************************************** */
+
 #include <LPC17xx.H>
 
 static long Coef_10us;
-static int NextTablePWM[20];	//Table pour le prochain cycle
+static int NextTablePWM[20];//Table pour le prochain cycle
 static int TablePWM[20];	//Table PWM actuel 
-static int Etat_TIMER0;	//Etat actuel dans l'envoi des PWM
-static int Etat_TIMER1;
-static int Wait1;	//Attend la fin de la perdiode de 2 ms 
+static int Etat_TIMER0;	    //Définis la PWM en cour d'envoie
+static int Etat_TIMER1;     
+static int Wait1;           //Indicateur de fin de PWM 
 static int Wait2;
 
 
@@ -19,13 +39,19 @@ void vMajTab2(void);
 void vInitTab(void);
 
 
-/*****************************************************************************
-	INIT PWM
-******************************************************************************/
+
+/*! ************************************************************************** *
+ * @brief Initialisation PWM.
+ *
+ * @param Frequency, Fréquence du CCLK en MHz
+ * @return Void
+ *  ************************************************************************** */
+
+
 void vInitPWM(int Frequency)
 {
-long PWM_Start=0;
-float Calcul = 0 ; 
+    long PWM_Start=0;
+    float Calcul = 0 ; 
 	
     LPC_SC->PCONP |= ( 1 << 15 ); // power up GPIO
     LPC_GPIO0->FIODIR = 0x0FFFFF; // init GPIO 0 to 19 output
@@ -45,13 +71,18 @@ float Calcul = 0 ;
 	
 
 }
-/*****************************************************************************
-    Configuration TIMER
-******************************************************************************/
+
+/*! ************************************************************************** *
+ * @brief Initialisation des TIMER0 et 1 CCLK/4.
+ *
+ * @param PWM_load PWM pour la valeur par défaut 
+ * @return Void
+ *  ************************************************************************** */
+
 void vInitTIMER(long PWM_load)
 {
     LPC_SC->PCONP |= 1 << 1; //Power up Timer0
-    LPC_SC->PCLKSEL0 |= 1 << 3; // Clock for timer = CCLK/2
+    LPC_SC->PCLKSEL0 |= 1 << 3; // Clock for timer = CCLK/4
 
     LPC_TIM0->MR0 = PWM_load;
     LPC_TIM0->MCR |= 1 << 0; // Interrupt on Match0 compare
@@ -60,7 +91,7 @@ void vInitTIMER(long PWM_load)
 
 
     LPC_SC->PCONP |= 1 << 1; //Power up Timer1
-    LPC_SC->PCLKSEL0 |= 1 << 5; // Clock for timer = CCLK/2
+    LPC_SC->PCLKSEL0 |= 1 << 5; // Clock for timer = CCLK/4
 
 
     LPC_TIM1->MR1 = PWM_load;
@@ -75,9 +106,14 @@ void vInitTIMER(long PWM_load)
     LPC_TIM1->TCR |= 1 << 0; // Start timer1
 }
 
-/*****************************************************************************
-    Configuration MR0
-******************************************************************************/
+
+/*! ************************************************************************** *
+ * @brief Chargement de la valeur dans MR0
+ *
+ * @param Compteur_PWM1 Indice de la valeur dans le tableaux TablePWM
+ * @return Void
+ *  ************************************************************************** */
+
 void vLoadMR0(int Compteur_PWM1)
 {
     long PWM_time;
@@ -88,9 +124,13 @@ void vLoadMR0(int Compteur_PWM1)
     LPC_TIM0->MR0 = PWM_time;
 }
 
-/*****************************************************************************
-    Configuration MR1
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Chargement de la valeur dans MR1
+ *
+ * @param Compteur_PWM1 Indice de la valeur dans le tableaux TablePWM
+ * @return Void
+ *  ************************************************************************** */
+ 
 void vLoadMR1(int Compteur_PWM2)
 {
     long PWM_time;
@@ -102,9 +142,11 @@ void vLoadMR1(int Compteur_PWM2)
 }
 
 
-/*****************************************************************************
-    INT TIMER 0 
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Interruption du timer0 Activation/desctivation GPIO
+ *
+ * @return Void
+ *  ************************************************************************** */
 
 void TIM0_IRQHandler(void)
 {
@@ -112,10 +154,10 @@ void TIM0_IRQHandler(void)
     {
         LPC_TIM0->IR |= 1 << 0; // Clear MR0 interrupt flag
         
-        if(Wait1==0)
+        if(Wait1==0)    
         {
             Wait1=1;																				 
-            TablePWM[Etat_TIMER0]=200-TablePWM[Etat_TIMER0];// Calcul la durée restante avant la prochaine PWM
+            TablePWM[Etat_TIMER0]=200-TablePWM[Etat_TIMER0];// Calcul la durée réstante avant la prochaine PWM
             vLoadMR0(Etat_TIMER0);
             GPIO_maj(Etat_TIMER0,0);
         }
@@ -136,9 +178,11 @@ void TIM0_IRQHandler(void)
     }
 }
 
-/*****************************************************************************
-    INT TIMER 1 
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Interruption du timer1 Activation/desctivation GPIO
+ *
+ * @return Void
+ *  ************************************************************************** */
 
 void TIM1_IRQHandler(void)
 {
@@ -171,20 +215,28 @@ void TIM1_IRQHandler(void)
 
 }
 
-/*****************************************************************************
-	Changement Valeurs 
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Chargement d'une nouvelle PWM dans le Tableau
+ *
+ * @param pin, le choix de la pin à modifier 
+ * @param Valeurs, en multiple de 10us comprise entre 100 et 200 
+ * @return Void
+ *  ************************************************************************** */
 
-void Setup_PWM(int pin, int Valeurs)
+void Setup_PWM(int Pin, int Valeurs)
 {
     if(Valeurs>199)Valeurs=199;
     if(Valeurs<100)Valeurs=100;
-    NextTablePWM[pin]	= Valeurs;
+    NextTablePWM[Pin]	= Valeurs;
 }
 
-/*****************************************************************************
-    Commande GPIO
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Configuration GPIO
+ *
+ * @param Pin, le choix de la pin à modifier 
+ * @param level, état logique 0/1
+ * @return Void
+ *  ************************************************************************** */
 
 void GPIO_maj(int pin, int level)
 {
@@ -192,9 +244,11 @@ void GPIO_maj(int pin, int level)
     else LPC_GPIO0->FIOCLR |= 1 << pin;
 }
 
-/*****************************************************************************
-	Mise à jour des PWM 1 à 10
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Mise à jour des valeurs du tableau de 0 à 9 
+ *
+ * @return Void
+ *  ************************************************************************** */
 
 void vMajTab1(void)
 {
@@ -205,9 +259,11 @@ void vMajTab1(void)
     }
 }
 
-/*****************************************************************************
-	Mise à jour des PWM 10 à 20
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Mise à jour des valeurs du tableau de 10 à 19 
+ *
+ * @return Void
+ *  ************************************************************************** */
 
 void vMajTab2(void)
 {
@@ -218,9 +274,11 @@ void vMajTab2(void)
     }
 }
 
-/*****************************************************************************
-	Remplisage des valeurs de base 
-******************************************************************************/
+/*! ************************************************************************** *
+ * @brief Mise à jour des valeurs du tableau de 10 à 19 
+ *
+ * @return Void
+ *  ************************************************************************** */
 
 void vInitTab(void)
 {

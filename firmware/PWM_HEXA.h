@@ -1,4 +1,15 @@
-/* PWM HEXAPODE */
+/*! ************************************************************************** *
+ * @file PWM_HEXA.h
+ * @brief librairie de controle hexapode
+ *
+ *
+ *
+ * @author Cédric CHRETIEN
+ * @version 1.0
+ *
+ * @changelog 17-11-2013
+ *
+ *  ************************************************************************** */
 
 
 #ifndef __PWM_HEXA_H__
