@@ -1,11 +1,11 @@
 #include <LPC17xx.H>
 
 static long Coef_10us;
-static int NextTablePWM[20];		//Table pour le prochain cycle
-static int TablePWM[20];				//Table PWM actuel 
-static int Etat_TIMER0;				//Etat actuel dans l'envoi des PWM
+static int NextTablePWM[20];	//Table pour le prochain cycle
+static int TablePWM[20];	//Table PWM actuel 
+static int Etat_TIMER0;	//Etat actuel dans l'envoi des PWM
 static int Etat_TIMER1;
-static int Wait1;							//Attend la fin de la perdiode de 2 ms 
+static int Wait1;	//Attend la fin de la perdiode de 2 ms 
 static int Wait2;
 
 
@@ -50,29 +50,29 @@ void vInitPWM(int Frequency)
 ******************************************************************************/
 void vInitTIMER(long PWM_load)
 {
-	LPC_SC->PCONP |= 1 << 1; 		//Power up Timer0
+	LPC_SC->PCONP |= 1 << 1; //Power up Timer0
 	LPC_SC->PCLKSEL0 |= 1 << 3; // Clock for timer = CCLK/2
 	
 	LPC_TIM0->MR0 = PWM_load;
-	LPC_TIM0->MCR |= 1 << 0; 		// Interrupt on Match0 compare
-	LPC_TIM0->TCR |= 1 << 1; 		// Reset Timer0
-	LPC_TIM0->TCR &= 0 << 1;		// Stop Reset
+	LPC_TIM0->MCR |= 1 << 0; // Interrupt on Match0 compare
+	LPC_TIM0->TCR |= 1 << 1; // Reset Timer0
+	LPC_TIM0->TCR &= 0 << 1; // Stop Reset
 	
 
-	LPC_SC->PCONP |= 1 << 1; 		//Power up Timer1
+	LPC_SC->PCONP |= 1 << 1; //Power up Timer1
 	LPC_SC->PCLKSEL0 |= 1 << 5; // Clock for timer = CCLK/2
 	
 	
 	LPC_TIM1->MR1 = PWM_load;
-	LPC_TIM1->MCR |= 1 << 3; 		// Interrupt on Match1 compare
-	LPC_TIM1->TCR |= 1 << 1; 		// Reset Timer0
-	LPC_TIM1->TCR &= 0 << 1;		// Stop Reset
+	LPC_TIM1->MCR |= 1 << 3; // Interrupt on Match1 compare
+	LPC_TIM1->TCR |= 1 << 1; // Reset Timer0
+	LPC_TIM1->TCR &= 0 << 1; // Stop Reset
 	
 
-	NVIC_EnableIRQ(TIMER1_IRQn); 	// Enable timer interrupt
-	NVIC_EnableIRQ(TIMER0_IRQn); 	// Enable timer interrupt
-	LPC_TIM0->TCR |= 1 << 0; 			// Start timer0
-	LPC_TIM1->TCR |= 1 << 0; 			// Start timer1
+	NVIC_EnableIRQ(TIMER1_IRQn); // Enable timer interrupt
+	NVIC_EnableIRQ(TIMER0_IRQn); // Enable timer interrupt
+	LPC_TIM0->TCR |= 1 << 0; // Start timer0
+	LPC_TIM1->TCR |= 1 << 0; // Start timer1
 }
 
 /*****************************************************************************
@@ -115,7 +115,7 @@ void TIM0_IRQHandler(void)
 		if(Wait1==0)
 		{
 			Wait1=1;																				 
-			TablePWM[Etat_TIMER0]=200-TablePWM[Etat_TIMER0]; // Calcul la durée restante avant la prochaine PWM
+			TablePWM[Etat_TIMER0]=200-TablePWM[Etat_TIMER0];// Calcul la durée restante avant la prochaine PWM
 			vLoadMR0(Etat_TIMER0);
 			GPIO_maj(Etat_TIMER0,0);
 		}
@@ -128,29 +128,29 @@ void TIM0_IRQHandler(void)
 			GPIO_maj(Etat_TIMER0,1);
 		}
 			
-		LPC_TIM0->TCR |= 1 << 1; // Reset Timer 0
+		LPC_TIM0->TCR |= 1 << 1;// Reset Timer 0
 		LPC_TIM0->TCR &= 0 << 1;
-		LPC_TIM0->TCR |= 1 << 0; // Start timer
+		LPC_TIM0->TCR |= 1 << 0;// Start timer
 		
-		if((Etat_TIMER1==9)&(Wait1==1))vMajTab1();				//Mise à jour du tableau
+		if((Etat_TIMER1==9)&(Wait1==1))vMajTab1();//Mise à jour du tableau
 	}
 }
 
 /*****************************************************************************
-																	INT TIMER 1 
+	INT TIMER 1 
 ******************************************************************************/
 
 void TIM1_IRQHandler(void)
 {
-	if((LPC_TIM1->IR & 0x02) == 0x02) // if MR1 interrupt
+	if((LPC_TIM1->IR & 0x02) == 0x02)// if MR1 interrupt
 	{
-		LPC_TIM1->IR |= 1 << 0; // Clear MR1 interrupt flag
+		LPC_TIM1->IR |= 1 << 0;// Clear MR1 interrupt flag
 		
 		if(Wait2==0)
 		{
 			Wait2=1;																				 
-			TablePWM[Etat_TIMER1+10]=200-TablePWM[Etat_TIMER1+10]; 	// Calcul la durée restante avant la prochaine PWM
-			vLoadMR1(Etat_TIMER1+10);													// +10 décalage sur le PORT pins 10 à 20
+			TablePWM[Etat_TIMER1+10]=200-TablePWM[Etat_TIMER1+10];// Calcul la durée restante avant la prochaine PWM
+			vLoadMR1(Etat_TIMER1+10);// +10 décalage sur le PORT pins 10 à 20
 			GPIO_maj(Etat_TIMER1+10,0);
 		}
 		else
@@ -166,13 +166,13 @@ void TIM1_IRQHandler(void)
 		LPC_TIM1->TCR &= 0 << 1;
 		LPC_TIM1->TCR |= 1 << 0; // Start timer
 		
-		if((Etat_TIMER1==9)&(Wait2==1))vMajTab2();				//Mise à jour du tableau
+		if((Etat_TIMER1==9)&(Wait2==1))vMajTab2();//Mise à jour du tableau
 	}
 
 }
 
 /*****************************************************************************
-														 Changement Valeurs 
+	Changement Valeurs 
 ******************************************************************************/
 
 void Setup_PWM(int pin, int Valeurs)
@@ -182,9 +182,8 @@ void Setup_PWM(int pin, int Valeurs)
 	NextTablePWM[pin]	= Valeurs;
 }
 
-
 /*****************************************************************************
-																Commande GPIO
+	Commande GPIO
 ******************************************************************************/
 
 void GPIO_maj(int pin, int level)
@@ -193,11 +192,9 @@ void GPIO_maj(int pin, int level)
 	else LPC_GPIO0->FIOCLR |= 1 << pin;
 }
 
-
 /*****************************************************************************
-													Mise à jour des PWM 1 à 10
+	Mise à jour des PWM 1 à 10
 ******************************************************************************/
-
 
 void vMajTab1(void)
 {
@@ -209,9 +206,8 @@ void vMajTab1(void)
 }
 
 /*****************************************************************************
-													Mise à jour des PWM 10 à 20
+	Mise à jour des PWM 10 à 20
 ******************************************************************************/
-
 
 void vMajTab2(void)
 {
@@ -222,12 +218,9 @@ void vMajTab2(void)
 	}
 }
 
-
-
 /*****************************************************************************
-														Remplisage des valeurs de base 
+	Remplisage des valeurs de base 
 ******************************************************************************/
-
 
 void vInitTab(void)
 {
