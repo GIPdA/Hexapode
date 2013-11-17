@@ -44,7 +44,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Output\</OutputDirectory>
-          <OutputName>Hexapode</OutputName>
+          <OutputName>Lab001</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -350,7 +350,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.;..\..\FreeRTOS-Source\include;..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3;..\..\FreeRTOS-Source\demo_code</IncludePath>
+              <IncludePath>..\Lab001;..\..\FreeRTOS-Source\include;..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3;..\..\FreeRTOS-Source\demo_code</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -415,11 +415,6 @@
               <FileName>port.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</FilePath>
-            </File>
-            <File>
-              <FileName>timers.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\FreeRTOS-Source\timers.c</FilePath>
             </File>
           </Files>
         </Group>
