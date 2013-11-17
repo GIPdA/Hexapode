@@ -123,7 +123,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(350=-1,-1,-1,-1,0)(250=-1,-1,-1,-1,0)(270=-1,-1,-1,-1,0)(313=-1,-1,-1,-1,0)(291=-1,-1,-1,-1,0)(302=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(113=-1,-1,-1,-1,0)(320=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(330=-1,-1,-1,-1,0)(332=832,616,1420,810,1)(333=-1,-1,-1,-1,0)(334=-1,-1,-1,-1,0)(335=-1,-1,-1,-1,0)(336=-1,-1,-1,-1,0)(345=-1,-1,-1,-1,0)(346=-1,-1,-1,-1,0)(381=-1,-1,-1,-1,0)(382=-1,-1,-1,-1,0)(383=-1,-1,-1,-1,0)(384=-1,-1,-1,-1,0)(197=-1,-1,-1,-1,0)(198=-1,-1,-1,-1,0)(191=-1,-1,-1,-1,0)(192=-1,-1,-1,-1,0)(199=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(261=-1,-1,-1,-1,0)(262=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(121=134,498,650,991,1)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(142=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(400=-1,-1,-1,-1,0)(370=240,282,747,746,0)(160=-1,-1,-1,-1,0)(280=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(350=-1,-1,-1,-1,0)(250=-1,-1,-1,-1,0)(270=-1,-1,-1,-1,0)(313=-1,-1,-1,-1,0)(291=-1,-1,-1,-1,0)(302=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(113=-1,-1,-1,-1,0)(320=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(330=-1,-1,-1,-1,0)(332=746,84,1334,278,1)(333=-1,-1,-1,-1,0)(334=-1,-1,-1,-1,0)(335=-1,-1,-1,-1,0)(336=-1,-1,-1,-1,0)(345=-1,-1,-1,-1,0)(346=-1,-1,-1,-1,0)(381=-1,-1,-1,-1,0)(382=-1,-1,-1,-1,0)(383=-1,-1,-1,-1,0)(384=-1,-1,-1,-1,0)(197=-1,-1,-1,-1,0)(198=-1,-1,-1,-1,0)(191=-1,-1,-1,-1,0)(192=-1,-1,-1,-1,0)(199=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(261=-1,-1,-1,-1,0)(262=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(121=1348,337,1864,830,1)(122=1307,456,1823,949,1)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(142=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(400=-1,-1,-1,-1,0)(370=240,282,747,746,0)(160=-1,-1,-1,-1,0)(280=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -140,7 +140,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>27</LineNumber>
+          <LineNumber>113</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -156,7 +156,7 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>97</LineNumber>
+          <LineNumber>138</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -519,6 +519,106 @@
         <Ww>
           <count>69</count>
           <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>70</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>71</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>72</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>73</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>74</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>75</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>76</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>77</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>78</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>79</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>80</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>81</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>82</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>83</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>84</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>85</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>86</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>87</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>88</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ulTaskNumber</ItemText>
+        </Ww>
+        <Ww>
+          <count>89</count>
+          <WinNumber>1</WinNumber>
           <ItemText>Coef_10us,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
@@ -589,7 +689,7 @@
         <Wi>
           <IntNumber>0</IntNumber>
           <FirstString>`FIO0PIN</FirstString>
-          <SecondString>FF00000000000000000000000000E0FFFFFFEF410200000000000000000000000000000046494F3050494E00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000090000000500000044F795381DD9D13F10000000000000000000000000000000000000004E0F0000</SecondString>
+          <SecondString>FF00000000000000000000000000E0FFFFFFEF410200000000000000000000000000000046494F3050494E000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000900000005000000C04FFB84D2566A3F10000000000000000000000000000000000000004E0F0000</SecondString>
         </Wi>
       </LogicAnalyzers>
     </TargetOption>
@@ -641,7 +741,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1398</TopLine>
+      <TopLine>1399</TopLine>
       <CurrentLine>1408</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\FreeRTOS-Source\tasks.c</PathWithFileName>
@@ -657,7 +757,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>119</TopLine>
+      <TopLine>120</TopLine>
       <CurrentLine>129</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\FreeRTOS-Source\portable\MemMang\heap_1.c</PathWithFileName>
@@ -673,7 +773,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>360</TopLine>
+      <TopLine>361</TopLine>
       <CurrentLine>368</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</PathWithFileName>
@@ -697,7 +797,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>9</TopLine>
+      <TopLine>10</TopLine>
       <CurrentLine>17</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
@@ -727,10 +827,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>3</ColumnNumber>
+      <ColumnNumber>2</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>4</TopLine>
-      <CurrentLine>151</CurrentLine>
+      <TopLine>63</TopLine>
+      <CurrentLine>72</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\PWM_HEXA.c</PathWithFileName>
       <FilenameWithoutPath>PWM_HEXA.c</FilenameWithoutPath>
@@ -751,10 +851,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>25</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>114</TopLine>
-      <CurrentLine>121</CurrentLine>
+      <TopLine>198</TopLine>
+      <CurrentLine>225</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup_MPS_CM3.s</PathWithFileName>
       <FilenameWithoutPath>startup_MPS_CM3.s</FilenameWithoutPath>

@@ -76,7 +76,8 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 ; External Interrupts
                 DCD     WDT_IRQHandler            ; 0:  Watchdog Timer
 				DCD     TIM0_IRQHandler           ; 2:  Timer0 / Timer1
-				DCD     RTC_IRQHandler            ; 1:  Real Time Clock
+				;;DCD     RTC_IRQHandler            ; 1:  Real Time Clock
+				DCD     TIM1_IRQHandler           ; 3:  TIMER 1 
                 ;DCD     RTC_IRQHandler            ; 1:  Real Time Clock
                 ;DCD     TIM0_IRQHandler           ; 2:  Timer0 / Timer1
                 DCD     TIM2_IRQHandler           ; 3:  Timer2 / Timer3
@@ -172,6 +173,7 @@ Default_Handler PROC
                 EXPORT  WDT_IRQHandler            [WEAK]
                 EXPORT  RTC_IRQHandler            [WEAK]
                 EXPORT  TIM0_IRQHandler           [WEAK]
+				EXPORT  TIM1_IRQHandler 		  [WEAK]		; Rajout pour le TIMER 1
                 EXPORT  TIM2_IRQHandler           [WEAK]
                 EXPORT  MCIA_IRQHandler           [WEAK]
                 EXPORT  MCIB_IRQHandler           [WEAK]
@@ -195,9 +197,8 @@ Default_Handler PROC
 
 WDT_IRQHandler
 RTC_IRQHandler
-                B       .
 TIM0_IRQHandler
-                B       .
+TIM1_IRQHandler
 TIM2_IRQHandler
 MCIA_IRQHandler
 MCIB_IRQHandler
@@ -206,10 +207,15 @@ UART1_IRQHandler
 UART2_IRQHandler
 UART3_IRQHandler
 UART4_IRQHandler
+
 AACI_IRQHandler
+
 CLCD_IRQHandler
+
 ENET_IRQHandler
+
 USBDC_IRQHandler
+
 USBHC_IRQHandler
 CHLCD_IRQHandler
 FLEXRAY_IRQHandler
