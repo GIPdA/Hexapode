@@ -1,0 +1,10 @@
+
+#ifndef _UART_CONFIG_H
+#define _UART_CONFIG_H
+
+#define UART_0_BAUDRATE	115200
+#define UART_2_BAUDRATE	115200
+#define UART_3_BAUDRATE	115200
+
+
+#endif // _UART_CONFIG_H
