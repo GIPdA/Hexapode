@@ -20,7 +20,7 @@ void vInitTab(void);
 
 
 /*****************************************************************************
-																	INIT PWM
+	INIT PWM
 ******************************************************************************/
 void vInitPWM(int Frequency)
 {
@@ -34,19 +34,19 @@ void vInitPWM(int Frequency)
 	Wait1=0;
 	vInitTab();
 	
-	Calcul = Frequency* 1000000.0;		// Calcul Coef pour avoir des multiple de 10us
+	Calcul = Frequency* 1000000.0;  // Calcul Coef pour avoir des multiple de 10us
 	Calcul = 4.0/Calcul;
 	Coef_10us = 0.00001/Calcul;
 	
 
-	PWM_Start = 100;			// 100*10us = 1ms
+	PWM_Start = 100;    // 100*10us = 1ms
 	PWM_Start = PWM_Start*Coef_10us; 
 	vInitTIMER(PWM_Start);
 	
 
 }
 /*****************************************************************************
-														Configuration TIMER
+    Configuration TIMER
 ******************************************************************************/
 void vInitTIMER(long PWM_load)
 {
@@ -76,7 +76,7 @@ void vInitTIMER(long PWM_load)
 }
 
 /*****************************************************************************
-														Configuration MR0
+    Configuration MR0
 ******************************************************************************/
 void vLoadMR0(int Compteur_PWM1)
 {
@@ -89,7 +89,7 @@ void vLoadMR0(int Compteur_PWM1)
 }
 
 /*****************************************************************************
-														Configuration MR1
+    Configuration MR1
 ******************************************************************************/
 void vLoadMR1(int Compteur_PWM2)
 {
@@ -103,7 +103,7 @@ void vLoadMR1(int Compteur_PWM2)
 
 
 /*****************************************************************************
-																	INT TIMER 0 
+    INT TIMER 0 
 ******************************************************************************/
 
 void TIM0_IRQHandler(void)
@@ -137,7 +137,7 @@ void TIM0_IRQHandler(void)
 }
 
 /*****************************************************************************
-	INT TIMER 1 
+    INT TIMER 1 
 ******************************************************************************/
 
 void TIM1_IRQHandler(void)
@@ -183,7 +183,7 @@ void Setup_PWM(int pin, int Valeurs)
 }
 
 /*****************************************************************************
-	Commande GPIO
+    Commande GPIO
 ******************************************************************************/
 
 void GPIO_maj(int pin, int level)
