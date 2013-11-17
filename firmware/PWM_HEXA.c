@@ -27,6 +27,7 @@ void vInitPWM(int Frequency)
 	long PWM_Start=0;
 	float Calcul = 0 ; 
 	
+	LPC_SC->PCONP |= ( 1 << 15 ); // power up GPIO
 	LPC_GPIO0->FIODIR = 0x0FFFFF; // init GPIO 0 to 19 output
  	
 	Etat_TIMER0=0;
@@ -37,10 +38,6 @@ void vInitPWM(int Frequency)
 	Calcul = 4.0/Calcul;
 	Coef_10us = 0.00001/Calcul;
 	
-	
-		
-	LPC_SC->PCONP |= 1 << 1; 		//Power up Timer0
-	LPC_SC->PCLKSEL0 |= 1 << 3; // Clock for timer = CCLK/2
 
 	PWM_Start = 100;			// 100*10us = 1ms
 	PWM_Start = PWM_Start*Coef_10us; 
@@ -53,16 +50,20 @@ void vInitPWM(int Frequency)
 ******************************************************************************/
 void vInitTIMER(long PWM_load)
 {
+	LPC_SC->PCONP |= 1 << 1; 		//Power up Timer0
+	LPC_SC->PCLKSEL0 |= 1 << 3; // Clock for timer = CCLK/2
+	
 	LPC_TIM0->MR0 = PWM_load;
 	LPC_TIM0->MCR |= 1 << 0; 		// Interrupt on Match0 compare
 	LPC_TIM0->TCR |= 1 << 1; 		// Reset Timer0
 	LPC_TIM0->TCR &= 0 << 1;		// Stop Reset
 	
 
+	LPC_SC->PCONP |= 1 << 1; 		//Power up Timer1
+	LPC_SC->PCLKSEL0 |= 1 << 5; // Clock for timer = CCLK/2
 	
 	
-	
-	LPC_TIM1->MR1 = PWM_load-5000;
+	LPC_TIM1->MR1 = PWM_load;
 	LPC_TIM1->MCR |= 1 << 3; 		// Interrupt on Match1 compare
 	LPC_TIM1->TCR |= 1 << 1; 		// Reset Timer0
 	LPC_TIM1->TCR &= 0 << 1;		// Stop Reset
