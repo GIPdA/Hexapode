@@ -1,3 +1,13 @@
+/**
+ * @brief -FILL-
+ *
+ * @todo Fill brief.
+ * @todo update sendStr/sendData with buffer
+ * @todo use ringbuffer in IT
+ * @todo use semaphore
+ * @todo make getData(ptr, size) with FreeRTOS semaphore
+ */
+
 
 #include <lpc17xx.h>
 #include "uart0.h"
@@ -38,7 +48,11 @@ static uint8_t u8TxBuffer[UART0_TX_BUFFER_SIZE];
 static xSizedRingBuffer xRxRingBuffer = RINGBUFFER_COMPILETIME_INIT(u8RxBuffer,UART0_RX_BUFFER_SIZE);
 static xSizedRingBuffer xTxRingBuffer = RINGBUFFER_COMPILETIME_INIT(u8TxBuffer,UART0_TX_BUFFER_SIZE);
 
+#define RXRB  &xRxRingBuffer
+#define TXRB  &xTxRingBuffer
 
+static xBufferState xLastRxBufferState = Ok;
+static xBufferState xLastTxBufferState = Ok;
 
 
 /**
@@ -51,7 +65,7 @@ void vUart0_init()
 {
     int pclk;
 
-    //Init buffers
+    // Buffers are already initialized at compile-time.
 
     // PCLK_UART0 is being set to 1/4 of SystemCoreClock
     pclk = OSC_CLK / 4;
@@ -83,31 +97,95 @@ void vUart0_init()
 }
 
 
+bool bUart0_isRxBufferEmpty()
+{
+    return bSRB_isEmpty(RXRB);
+}
+
+static inline
+bool bUart0_isTxFIFOFull()
+{
+    // THRE = 1 => data can be pushed in UART0 FIFO
+    return ((LPC_UART0->LSR & LSR_THRE) == 0);
+}
+
+xUartBufferState xUart0_lastRxBufferError()
+{
+    return xLastRxBufferState;
+}
+
+xUartBufferState xUart0_lastTxBufferError()
+{
+    return xLastTxBufferState;
+}
+
+
+
+/**
+ * @brief Get a byte from UART
+ * @sa xUart0_lastRxBufferError
+ *
+ * @param pu8Byte pointer where byte read will be stored. Must not be null.
+ * @return true on success, false otherwise
+ */
+bool u8Uart0_getByte(uint8_t *pu8Byte)
+{
+    // No need to check buffer state or pointer, xSRB_pop do it.
+
+    xLastRxBufferState = xSRB_pop(RXRB, pu8Byte);
+
+    if (xLastRxBufferState <= 0)
+        return false; // Error occured
+
+    //while ((LPC_UART0->LSR & LSR_RDR) == 0);  // Nothing received so just block
+    //return LPC_UART0->RBR; // Return receiver buffer register
+    return true;
+}
+
+
+
+/**
+ * @brief Using IT with Tx FIFO empty, put a char into Tx FIFO to initiate sending
+ */
+static
+void vUart0_initSending()
+{
+    uint8_t u8ByteToSend;
+
+    // Fill Tx FIFO
+    while(!bUart0_isTxFIFOFull() && !bSRB_isFull(TXRB))
+    {
+        if (xSRB_pop(TXRB, &u8ByteToSend) <= 0)
+            return; // Return if error
+
+        LPC_UART0->THR = u8ByteToSend;
+    }
+}
+
+
 /**
  * @brief Send a byte over UART
- * @todo Add timeout
- * @todo Use ringbuffer
+ * @sa xUart0_lastTxBufferError
+ *
+ * @param u8Byte Byte to send
+ * @return true if byte successfully pushed into buffer, false otherwise.
  */
-bool bUart0_sendByte(const uint8 u8Byte)
+bool bUart0_sendByte(const uint8_t u8Byte)
 {
-    while ((LPC_UART0->LSR & LSR_THRE) == 0);  // Block until tx empty
+    xLastTxBufferState = xSRB_push(TXRB, u8Byte);
 
-    LPC_UART0->THR = u8Byte;
+    if (xLastTxBufferState <= 0)
+        return false;   // Pushing byte in buffer failed (usually because buffer is full)
+
+    if (!bUart0_isTxFIFOFull())
+        vUart0_initSending();
+
+    //while ((LPC_UART0->LSR & LSR_THRE) == 0);  // Block until tx empty
+    //LPC_UART0->THR = u8Byte;
 
     return true;
 }
 
-/**
- * @brief Get a byte from UART
- * @todo Add timeout
- * @todo Use ringbuffer
- */
-uint8 u8Uart0_getByte()
-{
-    while ((LPC_UART0->LSR & LSR_RDR) == 0);  // Nothing received so just block
-
-    return LPC_UART0->RBR; // Return receiver buffer register
-}
 
 /**
  * @brief Send a string over UART
