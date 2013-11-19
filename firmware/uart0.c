@@ -119,6 +119,25 @@ xUartBufferState xUart0_lastTxBufferError()
     return xLastTxBufferState;
 }
 
+uint16_t u16Uart0_emptyTxBufferCount()
+{
+    return xTxRingBuffer.u16MaxSize - xTxRingBuffer.u16Count;
+}
+
+uint16_t u16Uart0_txBufferCount()
+{
+    return u16SRB_count(TXRB);
+}
+
+uint16_t u16Uart0_emptyRxBufferCount()
+{
+    return xRxRingBuffer.u16MaxSize - xRxRingBuffer.u16Count;
+}
+
+uint16_t u16Uart0_rxBufferCount()
+{
+    return u16SRB_count(RXRB);
+}
 
 
 /**

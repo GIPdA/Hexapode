@@ -6,9 +6,19 @@
 
 
 void vUart0_init(void);
-bool bUart0_sendByte(const uint8 u8Byte);
-bool bUart0_sendStr(char *pcString);
-bool bUart0_sendConstStr(const char * const pcString);
+
+bool u8Uart0_getByte(uint8_t *pu8Byte);
+bool bUart0_sendByte(const uint8_t u8Byte);
+
+
+
+bool bUart0_isRxBufferEmpty();
+
+uint16_t u16Uart0_emptyTxBufferCount();
+uint16_t u16Uart0_txBufferCount();
+uint16_t u16Uart0_emptyRxBufferCount();
+uint16_t u16Uart0_rxBufferCount();
+
 
 /// @brief Ring buffer states
 typedef
