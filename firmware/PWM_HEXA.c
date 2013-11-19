@@ -10,6 +10,40 @@
  * PIN   = 1 => PORT0.1           (0<PIN<19)
  * TEMPS = 100 => 100*10us = 1ms  (100<TEMPS<200)
  *
+ * Chaque timer réalise de façon successive 10 PWM.
+ *
+ * Exemple :
+ *
+ *      2ms
+ *	   <----> 
+ *                 20ms
+ *     <---------------------------->
+ *    |___                            ___
+ * P1 |   |                          |   |
+ *    |___|_____________ __ __ ______|___|_\
+ *    |       ___                          /
+ * P2 |      |   |
+ *	  |______|_ _|______ __ __ ____________\
+ *    |                        ___         /
+ * P10|                       |   |
+ *	  |_________________ __ __|___|________\
+ *                                         / 
+ *Zone de fonctionnement :
+ *    |   | |   |                         
+ *	  | 1 |2| 1 |
+ *    |   | |   |
+ *
+ * Zone 1 :  Début: mise à 1 de la pin et lancement du timer (wait* = 0).
+ *			 Fin : Interruption du timer passage de la pin à 0. 
+ *
+ * Zone 2 : Début : Lancement du timer jusqu'a la fin des 2ms alloué à cette PWM (wait=1).
+ *			Fin : Interruption du timer lancement de la PWM suivante.
+ *
+ *   *wait: Flag qui permet d'identifier la zone actuel.
+ *
+ *
+ *
+ *
  *
  * @author Cédric CHRETIEN
  * @version 1.0
@@ -41,7 +75,7 @@ void vInitTab(void);
 
 
 /*! ************************************************************************** *
- * @brief Initialisation PWM.
+ * @brief Initialisation des 20 PWM ( réglage GPIO et timer)
  *
  * @param Frequency, Fréquence du CCLK en MHz
  * @return Void
@@ -60,7 +94,7 @@ void vInitPWM(int Frequency)
     Wait1=0;
     vInitTab();
 
-    Calcul = Frequency* 1000000.0;  // Calcul Coef pour avoir des multiple de 10us
+    Calcul = Frequency* 1000000.0;  // Calcul Coef pour avoir des multiples de 10us
     Calcul = 4.0/Calcul;
     Coef_10us = 0.00001/Calcul;
 
@@ -143,7 +177,7 @@ void vLoadMR1(int Compteur_PWM2)
 
 
 /*! ************************************************************************** *
- * @brief Interruption du timer0 Activation/desctivation GPIO
+ * @brief Interruption du timer0 modification des état logique sur les GPIO
  *
  * @return Void
  *  ************************************************************************** */
@@ -179,7 +213,7 @@ void TIM0_IRQHandler(void)
 }
 
 /*! ************************************************************************** *
- * @brief Interruption du timer1 Activation/desctivation GPIO
+ * @brief Interruption du timer1 modification des état logique sur les GPIO
  *
  * @return Void
  *  ************************************************************************** */
@@ -218,8 +252,8 @@ void TIM1_IRQHandler(void)
 /*! ************************************************************************** *
  * @brief Chargement d'une nouvelle PWM dans le Tableau
  *
- * @param pin, le choix de la pin à modifier 
- * @param Valeurs, en multiple de 10us comprise entre 100 et 200 
+ * @param pin le choix de la pin à modifier 
+ * @param Valeurs en multiple de 10us comprise entre 100 et 200 
  * @return Void
  *  ************************************************************************** */
 
@@ -233,8 +267,8 @@ void Setup_PWM(int Pin, int Valeurs)
 /*! ************************************************************************** *
  * @brief Configuration GPIO
  *
- * @param Pin, le choix de la pin à modifier 
- * @param level, état logique 0/1
+ * @param Pin le choix de la pin à modifier 
+ * @param level état logique 0/1
  * @return Void
  *  ************************************************************************** */
 
@@ -286,7 +320,7 @@ void vInitTab(void)
     for (i=0; i<20; i++) 
     {
         NextTablePWM[i]	= 150;	
-        TablePWM[i]			=	150;				
+        TablePWM[i]	    = 150;				
     }
 }
 
