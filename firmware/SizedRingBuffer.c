@@ -105,7 +105,7 @@ xBufferState xSRB_push(xSizedRingBuffer * const xSRBuf, const uint8_t u8Value)
     
     ++xSRBuf->u16Count;  // Increment count value
     
-    if(xSRBuf->u16EndIndex >= xSRBuf->u16MaxSize) // Ring buffer, back to zero if max size reached
+    if (xSRBuf->u16EndIndex >= xSRBuf->u16MaxSize) // Ring buffer, back to zero if max size reached
         xSRBuf->u16EndIndex = 0;
 
     // Buffer is now full
@@ -186,7 +186,7 @@ xBufferState xSRB_pop(xSizedRingBuffer * const xSRBuf, uint8_t * const pu8Value)
     ++xSRBuf->u16StartIndex; // Increment start index
     --xSRBuf->u16Count;  // Decrement count value
 
-    if(xSRBuf->u16StartIndex >= xSRBuf->u16MaxSize) // Ring buffer, back to zero if max size reached
+    if (xSRBuf->u16StartIndex >= xSRBuf->u16MaxSize) // Ring buffer, back to zero if max size reached
         xSRBuf->u16StartIndex = 0;
 
     // If buffer is now empty

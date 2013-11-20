@@ -37,7 +37,7 @@ typedef
 enum _BufferState { 
 	Error = 0, 			// Returned in case of null pointer
 	Ok = 1, 			// Buffer contains data but not empty or (almost) full
-	Empty = 2, 			// Buffer is empty
+	Empty = -3, 			// Buffer is empty
 	NowEmpty = 3, 		// The read emptied the buffer
 	//AlmostFull = 4, 	// The buffer is almost full (limit defined with UART_0_BUFFER_WARNING_LIMIT)
 	Full = -1, 			// Buffer full
