@@ -79,8 +79,9 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     TIM0_IRQHandler           ; 2:  Timer0 / Timer1
                 DCD     TIM2_IRQHandler           ; 3:  Timer2 / Timer3
                 DCD     MCIA_IRQHandler           ; 4:  MCIa
+				DCD     UART0_IRQHandler          ; 6:  UART0 - DUT FPGA
                 DCD     MCIB_IRQHandler           ; 5:  MCIb
-                DCD     UART0_IRQHandler          ; 6:  UART0 - DUT FPGA
+                
                 DCD     UART1_IRQHandler          ; 7:  UART1 - DUT	FPGA
                 DCD     UART2_IRQHandler          ; 8:  UART2 - DUT	FPGA
                 DCD     UART4_IRQHandler          ; 9:  UART4 - not connected
