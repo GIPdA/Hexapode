@@ -102,19 +102,19 @@ bool bUart0_isRxBufferEmpty()
     return bSRB_isEmpty(RXRB);
 }
 
-static inline
+
 bool bUart0_isTxFIFOFull()
 {
     // THRE = 1 => data can be pushed in UART0 FIFO
     return ((LPC_UART0->LSR & LSR_THRE) == 0);
 }
 
-xUartBufferState xUart0_lastRxBufferError()
+xBufferState xUart0_lastRxBufferError()
 {
     return xLastRxBufferState;
 }
 
-xUartBufferState xUart0_lastTxBufferError()
+xBufferState xUart0_lastTxBufferError()
 {
     return xLastTxBufferState;
 }
@@ -172,9 +172,10 @@ void vUart0_initSending()
     uint8_t u8ByteToSend;
 
     // Fill Tx FIFO
-    while(!bUart0_isTxFIFOFull() && !bSRB_isFull(TXRB))
+    while(!bUart0_isTxFIFOFull() && !bSRB_isEmpty(TXRB))
     {
-        if (xSRB_pop(TXRB, &u8ByteToSend) <= 0)
+        xLastTxBufferState = xSRB_pop(TXRB, &u8ByteToSend);
+        if (xLastTxBufferState <= 0)
             return; // Return if error
 
         LPC_UART0->THR = u8ByteToSend;
@@ -239,75 +240,64 @@ bool bUart0_sendConstStr(const char * const pcString)
  * @brief UART 0 IRQ handler
  * @todo Use ring buffer
  */
-void UART0_IRQHandler (void) 
+void UART0_IRQHandler (void) __irq
 {
-  uint8_t IIRValue, LSRValue;
-  uint8_t u8Dummy = u8Dummy;    // Avoid warning
+    uint8_t IIRValue, LSRValue;
+    uint8_t u8ByteToSend;
+    uint8_t u8Dummy = u8Dummy;    // Avoid warning
         
-  IIRValue = LPC_UART0->IIR;
-    
-  IIRValue >>= 1;                        // Skip pending bit in IIR
-  IIRValue &= 0x07;                      // Check bit 1~3, interrupt identification
+    IIRValue = LPC_UART0->IIR;
 
-  if (IIRValue == IIR_RLS)                // Receive Line Status
-  {
+    IIRValue >>= 1;                        // Skip pending bit in IIR
+    IIRValue &= 0x07;                      // Check bit 1~3, interrupt identification
+
+    if (IIRValue == IIR_RLS)                // Receive Line Status
+    {
         LSRValue = LPC_UART0->LSR;
 
         // Receive Line Status
         if (LSRValue & (LSR_OE|LSR_PE|LSR_FE|LSR_RXFE|LSR_BI))
         {
-          // There are errors or break interrupt
-          // Read LSR will clear the interrupt
-          //UART0Status = LSRValue;
-          u8Dummy = LPC_UART0->RBR;                // Dummy read on RX to clear interrupt, then bail out
-          return;
+            // There are errors or break interrupt
+            // Read LSR will clear the interrupt
+            //UART0Status = LSRValue;
+            u8Dummy = LPC_UART0->RBR;                // Dummy read on RX to clear interrupt, then bail out
+            return;
         }
 
         // Receive Data Ready
         if (LSRValue & LSR_RDR)
         {
-          // If no error on RLS, normal ready, save into the data buffer.
-          // Note: read RBR will clear the interrupt
-          /*UART0Buffer[UART0Count] = LPC_UART0->RBR;
-          UART0Count++;
-          if (UART0Count == BUFSIZE)
-          {
-                UART0Count = 0;                // buffer overflow
-          } // */       
+            // If no error on RLS, normal ready, save into the data buffer.
+            // Note: read RBR will clear the interrupt
+            xLastRxBufferState = xSRB_push(RXRB, LPC_UART0->RBR);   
         }
-  }
+    }
 
-  // Receive Data Available
-  else if (IIRValue == IIR_RDA)
-  {
-        /*UART0Buffer[UART0Count] = LPC_UART0->RBR;
-        UART0Count++;
-        if ( UART0Count == BUFSIZE )
-        {
-          UART0Count = 0;                // buffer overflow
-        }// */
-  }
+    // Receive Data Available
+    else if (IIRValue == IIR_RDA)
+    {
+        xLastRxBufferState = xSRB_push(RXRB, LPC_UART0->RBR);  
+    }
 
-  // Character timeout indicator
-  else if (IIRValue == IIR_CTI)
-  {
+    // Character timeout indicator
+    else if (IIRValue == IIR_CTI)
+    {
         //UART0Status |= 0x100;                // Bit 9 as the CTI error
-  }
+    }
 
-  // THRE, transmit holding register empty
-  else if (IIRValue == IIR_THRE)
-  {
+    // THRE, transmit holding register empty
+    else if (IIRValue == IIR_THRE)
+    {
         LSRValue = LPC_UART0->LSR;                // Check status in the LSR to see if valid data in U0THR or not
 
-        if ( LSRValue & LSR_THRE )
+        if (LSRValue & LSR_THRE)
         {
-          //UART0TxEmpty = 1;
+            xLastTxBufferState = xSRB_pop(TXRB, &u8ByteToSend);
+            if (xLastTxBufferState > 0)
+                LPC_UART0->THR = u8ByteToSend;
         }
-        else
-        {
-          //UART0TxEmpty = 0;
-        }
-  }
+    }
     
 }
 
