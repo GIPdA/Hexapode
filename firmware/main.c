@@ -1,5 +1,6 @@
 
 #include <lpc17xx.h>
+#include <stdio.h>
 #include "lpc_types.h"
 
 #include "FreeRTOS.h"
