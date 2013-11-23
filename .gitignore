@@ -19,3 +19,4 @@
 
 firmware/Output
 firmware/Output/*
+firmware/._*
