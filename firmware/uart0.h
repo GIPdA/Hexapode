@@ -4,20 +4,16 @@
 
 #include <stdint.h>
 #include "lpc_types.h"
+#include "FreeRTOS.h"
 
 
-void vUart0_init(void);
+portBASE_TYPE xUart0_init(void);
 
-bool u8Uart0_getByte(uint8_t *pu8Byte);
-bool bUart0_sendByte(const uint8_t u8Byte);
+portBASE_TYPE xUart0_getByte(uint8_t *pu8Byte, portTickType xTicksToWait);
+portBASE_TYPE xUart0_sendByte(uint8_t u8Byte, portTickType xTicksToWait);
 
-
-
-bool bUart0_isRxBufferEmpty(void);
-
-uint16_t u16Uart0_emptyTxBufferCount(void);
-uint16_t u16Uart0_txBufferCount(void);
-uint16_t u16Uart0_emptyRxBufferCount(void);
-uint16_t u16Uart0_rxBufferCount(void);
+portBASE_TYPE xUart0_sendString(char *pcString, unsigned int *pu32BytesWritten, portTickType xTicksToWait);
+portBASE_TYPE xUart0_sendData(unsigned char *pu8Data, unsigned int u32DataSize, 
+                              unsigned int *pu32BytesWritten, portTickType xTicksToWait);
 
 #endif // _UART0_H

@@ -14,21 +14,20 @@
 
 
 void vTask(void *pvParameters);
+void vReceiverTask(void *pvParameters);
 
 unsigned long ulTaskNumber[configEXPECTED_NO_RUNNING_TASKS];
 
 int main(void)
 {
-    vUart0_init();
-		bUart0_sendByte('H');
-		bUart0_sendByte('e');
-		bUart0_sendByte('x');
-		bUart0_sendByte('a');
-		bUart0_sendByte('p');
-		bUart0_sendByte('o');
-
+    if (!xUart0_init())
+    {
+        printf("UART0 init failed\n");
+        while (1);
+    }
 
     xTaskCreate(vTask, SC"Task 1", 200, NULL, 1, NULL);
+    xTaskCreate(vReceiverTask, SC"UART Receive", 200, NULL, 1, NULL);
 
     vTaskStartScheduler();
 
@@ -38,7 +37,21 @@ int main(void)
 void vTask(void *pvParameters)
 {
     while (1) {
-        //
+        xUart0_sendString("Hexapode", 0, 100);
+        vTaskDelay(1000);
+    }
+}
+
+void vReceiverTask(void *pvParameters)
+{
+    unsigned char byte;
+    
+    while (1) {
+        if (xUart0_getByte(&byte, 1000)) {
+            printf("Byte received: %c\n", byte);
+        } else {
+            printf("Error in receive\n");
+        }
     }
 }
 

@@ -13,7 +13,8 @@
 #include "uart0.h"
 #include "uart_private.h"
 
-#include "SizedRingBuffer.h"
+#include "FreeRTOS.h"
+#include "queue.h"
 
 #include "UartConfig.h"
 
@@ -28,12 +29,12 @@
 #error System Core Clock is not specified. Please define OSC_CLK in system_specific.h.
 #endif
 
-#ifndef UART0_RX_BUFFER_SIZE
-#error Rx buffer size of UART 0 not defined. Please define UART0_RX_BUFFER_SIZE in UartConfig.h to desired buffer size.
+#ifndef UART0_RX_QUEUE_SIZE
+#error Rx queue size of UART 0 not defined. Please define UART0_RX_QUEUE_SIZE in UartConfig.h to desired queue size.
 #endif
 
-#ifndef UART0_TX_BUFFER_SIZE
-#error Tx buffer size of UART 0 not defined. Please define UART0_TX_BUFFER_SIZE in UartConfig.h to desired buffer size.
+#ifndef UART0_TX_QUEUE_SIZE
+#error Tx queue size of UART 0 not defined. Please define UART0_TX_QUEUE_SIZE in UartConfig.h to desired queue size.
 #endif
 
 
@@ -42,17 +43,9 @@
 #define DIVISOR_LATCH_MSB(PCLK,BAUDRATE)     ((DIVISOR_LATCH_VALUE(PCLK,BAUDRATE) >> 8)&0xFF)
 
 
-static uint8_t u8RxBuffer[UART0_RX_BUFFER_SIZE];
-static uint8_t u8TxBuffer[UART0_TX_BUFFER_SIZE];
-
-static xSizedRingBuffer xRxRingBuffer = RINGBUFFER_COMPILETIME_INIT(u8RxBuffer,UART0_RX_BUFFER_SIZE);
-static xSizedRingBuffer xTxRingBuffer = RINGBUFFER_COMPILETIME_INIT(u8TxBuffer,UART0_TX_BUFFER_SIZE);
-
-#define RXRB  &xRxRingBuffer
-#define TXRB  &xTxRingBuffer
-
-static xBufferState xLastRxBufferState = Ok;
-static xBufferState xLastTxBufferState = Ok;
+/** UART Queues handles */
+xQueueHandle xRxQueue;
+xQueueHandle xTxQueue;
 
 
 /**
@@ -61,11 +54,16 @@ static xBufferState xLastTxBufferState = Ok;
  *
  * @return None
  */
-void vUart0_init()
+portBASE_TYPE xUart0_init()
 {
     int pclk;
 
-    // Buffers are already initialized at compile-time.
+    // Init FreeRTOS Queues
+    xRxQueue = xQueueCreate(UART0_RX_QUEUE_SIZE, sizeof(unsigned char));
+    xTxQueue = xQueueCreate(UART0_TX_QUEUE_SIZE, sizeof(unsigned char));
+
+    if (!xRxQueue || !xTxQueue)
+        return pdFALSE;
 
     // PCLK_UART0 is being set to 1/4 of SystemCoreClock
     pclk = OSC_CLK / 4;
@@ -93,72 +91,22 @@ void vUart0_init()
     // Enable IRQ
     NVIC_EnableIRQ(UART0_IRQn);
 
-    LPC_UART0->IER = IER_RBR | IER_THRE | IER_RLS;        /* Enable UART0 interrupt */
-}
-
-
-bool bUart0_isRxBufferEmpty()
-{
-    return bSRB_isEmpty(RXRB);
-}
-
-
-bool bUart0_isTxFIFOFull()
-{
-    // THRE = 1 => data can be pushed in UART0 FIFO
-    return ((LPC_UART0->LSR & LSR_THRE) == 0);
-}
-
-xBufferState xUart0_lastRxBufferError()
-{
-    return xLastRxBufferState;
-}
-
-xBufferState xUart0_lastTxBufferError()
-{
-    return xLastTxBufferState;
-}
-
-uint16_t u16Uart0_emptyTxBufferCount()
-{
-    return xTxRingBuffer.u16MaxSize - xTxRingBuffer.u16Count;
-}
-
-uint16_t u16Uart0_txBufferCount()
-{
-    return u16SRB_count(TXRB);
-}
-
-uint16_t u16Uart0_emptyRxBufferCount()
-{
-    return xRxRingBuffer.u16MaxSize - xRxRingBuffer.u16Count;
-}
-
-uint16_t u16Uart0_rxBufferCount()
-{
-    return u16SRB_count(RXRB);
+    LPC_UART0->IER = IER_RBR | IER_THRE | IER_RLS;        // Enable UART0 interrupt
+    
+    return pdTRUE;
 }
 
 
 /**
- * @brief Get a byte from UART
- * @sa xUart0_lastRxBufferError
+ * @brief Get a byte from UART, read from queue
  *
  * @param pu8Byte pointer where byte read will be stored. Must not be null.
- * @return true on success, false otherwise
+ * @param xTicksToWait see xQueueReceive
+ * @return xQueueReceive() return value
  */
-bool u8Uart0_getByte(uint8_t *pu8Byte)
+portBASE_TYPE xUart0_getByte(uint8_t *pu8Byte, portTickType xTicksToWait)
 {
-    // No need to check buffer state or pointer, xSRB_pop do it.
-
-    xLastRxBufferState = xSRB_pop(RXRB, pu8Byte);
-
-    if (xLastRxBufferState <= 0)
-        return false; // Error occured
-
-    //while ((LPC_UART0->LSR & LSR_RDR) == 0);  // Nothing received so just block
-    //return LPC_UART0->RBR; // Return receiver buffer register
-    return true;
+    return xQueueReceive(xRxQueue, (void*)pu8Byte, xTicksToWait);
 }
 
 
@@ -171,67 +119,88 @@ void vUart0_initSending()
 {
     uint8_t u8ByteToSend;
 
-    // Fill Tx FIFO
-    while(!bUart0_isTxFIFOFull() && !bSRB_isEmpty(TXRB))
-    {
-        xLastTxBufferState = xSRB_pop(TXRB, &u8ByteToSend);
-        if (xLastTxBufferState <= 0)
-            return; // Return if error
+    if (!(LPC_UART0->LSR & LSR_THRE))
+        return;
 
+    // Fill Tx FIFO
+    while ((LPC_UART0->LSR & LSR_THRE) && xQueueReceive(xTxQueue, (void*)&u8ByteToSend, 0))
+    {
         LPC_UART0->THR = u8ByteToSend;
     }
 }
 
 
 /**
- * @brief Send a byte over UART
- * @sa xUart0_lastTxBufferError
+ * @brief Send a byte over UART by queue
  *
  * @param u8Byte Byte to send
- * @return true if byte successfully pushed into buffer, false otherwise.
+ * @param xTicksToWait see xQueueSendToBack
+ * @return xQueueSendToBack() return value
  */
-bool bUart0_sendByte(const uint8_t u8Byte)
+portBASE_TYPE xUart0_sendByte(uint8_t u8Byte, portTickType xTicksToWait)
 {
-    xLastTxBufferState = xSRB_push(TXRB, u8Byte);
-
-    if (xLastTxBufferState <= 0)
-        return false;   // Pushing byte in buffer failed (usually because buffer is full)
-
-    if (!bUart0_isTxFIFOFull())
-        vUart0_initSending();
-
-    //while ((LPC_UART0->LSR & LSR_THRE) == 0);  // Block until tx empty
-    //LPC_UART0->THR = u8Byte;
-
-    return true;
+    portBASE_TYPE status = xQueueSendToBack(xTxQueue, (void*)&u8Byte, xTicksToWait);
+    vUart0_initSending();
+    return status;
 }
 
 
 /**
  * @brief Send a string over UART
- * @todo Add timeout
- * @todo Use ringbuffer
+ *
+ * @param pcString Zero-terminated string
+ * @param pu32BytesWritten Get the number of bytes effectively written to queue. Set to 0 if not used
+ * @param xTicksToWait see xQueueSendToBack
+ * @return xQueueSendToBack() return value
  */
-bool bUart0_sendStr(char *pcString)
+portBASE_TYPE xUart0_sendString(char *pcString, unsigned int *pu32BytesWritten, portTickType xTicksToWait)
 {
-    for (; pcString[0] != '\0'; pcString++) // Loop through until reach string's zero terminator
-        if (bUart0_sendByte(pcString[0]) == false)
-            return false;
-    return true;
+    portBASE_TYPE status;
+
+    if (pu32BytesWritten)
+        *pu32BytesWritten = 0;
+
+    for (; pcString[0] != '\0'; pcString++) { // Loop through until reach string's zero terminator
+        status = xUart0_sendByte(pcString[0], xTicksToWait);
+
+        if (status != pdPASS)
+            return status;
+
+        if (pu32BytesWritten)
+            *pu32BytesWritten++;
+    }
+    return pdPASS;
 }
 
+
 /**
- * @brief Send a string over UART
- * @todo Add timeout
- * @todo Use ringbuffer
+ * @brief Send data over UART
+ *
+ * @param pu8Data pointer to data
+ * @param u32DataSize number of bytes to send
+ * @param pu32BytesWritten Get the number of bytes effectively written to queue. Set to 0 if not used
+ * @param xTicksToWait see xQueueSendToBack
+ * @return xQueueSendToBack() return value
  */
-bool bUart0_sendConstStr(const char * const pcString)
+portBASE_TYPE xUart0_sendData(unsigned char *pu8Data, unsigned int u32DataSize, 
+                              unsigned int *pu32BytesWritten, portTickType xTicksToWait)
 {
-    uint32_t i;
-    for (i = 0; pcString[i] != '\0'; i++)
-        if (bUart0_sendByte(pcString[i]) == false)
-            return false;
-    return true;
+    portBASE_TYPE status;
+    unsigned int i;
+
+    if (pu32BytesWritten)
+        *pu32BytesWritten = 0;
+
+    for (i = 0; i < u32DataSize; i++) { // Loop through until reach string's zero terminator
+        status = xUart0_sendByte(pu8Data[i], xTicksToWait);
+
+        if (status != pdPASS)
+            return status;
+
+        if (pu32BytesWritten)
+            *pu32BytesWritten++;
+    }
+    return pdPASS;
 }
 
 
@@ -245,6 +214,8 @@ void UART0_IRQHandler (void) __irq
     uint8_t IIRValue, LSRValue;
     uint8_t u8ByteToSend;
     uint8_t u8Dummy = u8Dummy;    // Avoid warning
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
         
     IIRValue = LPC_UART0->IIR;
 
@@ -270,35 +241,35 @@ void UART0_IRQHandler (void) __irq
         {
             // If no error on RLS, normal ready, save into the data buffer.
             // Note: read RBR will clear the interrupt
-            xLastRxBufferState = xSRB_push(RXRB, LPC_UART0->RBR);   
+            u8Dummy = LPC_UART0->RBR;
+            xQueueSendToBackFromISR(xRxQueue, (void*)&u8Dummy, &xHigherPriorityTaskWoken);  
         }
     }
 
     // Receive Data Available
     else if (IIRValue == IIR_RDA)
     {
-        xLastRxBufferState = xSRB_push(RXRB, LPC_UART0->RBR);  
+        u8Dummy = LPC_UART0->RBR;
+        xQueueSendToBackFromISR(xRxQueue, (void*)&u8Dummy, &xHigherPriorityTaskWoken); 
     }
 
     // Character timeout indicator
     else if (IIRValue == IIR_CTI)
     {
-        //UART0Status |= 0x100;                // Bit 9 as the CTI error
+        //
     }
 
     // THRE, transmit holding register empty
     else if (IIRValue == IIR_THRE)
     {
-        LSRValue = LPC_UART0->LSR;                // Check status in the LSR to see if valid data in U0THR or not
-
-        if (LSRValue & LSR_THRE)
+        // Fill Tx FIFO
+        while ((LPC_UART0->LSR & LSR_THRE) && xQueueReceiveFromISR(xTxQueue, (void*)&u8ByteToSend, &xHigherPriorityTaskWoken))
         {
-            xLastTxBufferState = xSRB_pop(TXRB, &u8ByteToSend);
-            if (xLastTxBufferState > 0)
-                LPC_UART0->THR = u8ByteToSend;
+            LPC_UART0->THR = u8ByteToSend;
         }
     }
     
+    portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 }
 
 

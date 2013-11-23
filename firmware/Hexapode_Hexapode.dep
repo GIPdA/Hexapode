@@ -70,7 +70,7 @@ I (..\..\FreeRTOS-Source\include\task.h)(0x525C2BA8)
 I (..\..\FreeRTOS-Source\include\list.h)(0x525C2ACA)
 I (..\..\FreeRTOS-Source\include\queue.h)(0x525C2ACA)
 I (..\..\FreeRTOS-Source\include\timers.h)(0x525C2ACA)
-F (.\main.c)(0x528D2778)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I. -I..\..\FreeRTOS-Source\include -I..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3 -I..\..\FreeRTOS-Source\demo_code -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -o ".\Output\main.o" --omf_browse ".\Output\main.crf" --depend ".\Output\main.d")
+F (.\main.c)(0x5290BABA)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I. -I..\..\FreeRTOS-Source\include -I..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3 -I..\..\FreeRTOS-Source\demo_code -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -o ".\Output\main.o" --omf_browse ".\Output\main.crf" --depend ".\Output\main.d")
 I (C:\Keil\ARM\Inc\NXP\LPC17xx\lpc17xx.h)(0x5087AE3A)
 I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x5087AFDE)
 I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x50F9C3C0)
@@ -88,7 +88,7 @@ I (..\..\FreeRTOS-Source\include\mpu_wrappers.h)(0x525C2ACA)
 I (..\..\FreeRTOS-Source\include\task.h)(0x525C2BA8)
 I (..\..\FreeRTOS-Source\include\list.h)(0x525C2ACA)
 I (..\..\FreeRTOS-Source\demo_code\basic_io.h)(0x51E68030)
-I (uart0.h)(0x528D2154)
+I (uart0.h)(0x5290B8A2)
 F (..\..\FreeRTOS-Source\demo_code\basic_io.c)(0x51E7FA44)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I. -I..\..\FreeRTOS-Source\include -I..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3 -I..\..\FreeRTOS-Source\demo_code -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -o ".\Output\basic_io.o" --omf_browse ".\Output\basic_io.crf" --depend ".\Output\basic_io.d")
 I (C:\Keil\ARM\ARMCC\bin\..\include\stdio.h)(0x50F9C3C0)
 I (..\..\FreeRTOS-Source\include\FreeRTOS.h)(0x525C2ACA)
@@ -100,18 +100,25 @@ I (..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3\portmacro.h)(0x525C2ACA)
 I (..\..\FreeRTOS-Source\include\mpu_wrappers.h)(0x525C2ACA)
 I (..\..\FreeRTOS-Source\include\task.h)(0x525C2BA8)
 I (..\..\FreeRTOS-Source\include\list.h)(0x525C2ACA)
-F (.\uart0.c)(0x528D30AC)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I. -I..\..\FreeRTOS-Source\include -I..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3 -I..\..\FreeRTOS-Source\demo_code -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -o ".\Output\uart0.o" --omf_browse ".\Output\uart0.crf" --depend ".\Output\uart0.d")
+F (.\uart0.c)(0x5290B888)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I. -I..\..\FreeRTOS-Source\include -I..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3 -I..\..\FreeRTOS-Source\demo_code -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -o ".\Output\uart0.o" --omf_browse ".\Output\uart0.crf" --depend ".\Output\uart0.d")
 I (C:\Keil\ARM\Inc\NXP\LPC17xx\lpc17xx.h)(0x5087AE3A)
 I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x5087AFDE)
 I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x50F9C3C0)
 I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x5087AFDE)
 I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x5087AFDE)
 I (C:\Keil\ARM\Inc\NXP\LPC17xx\system_LPC17xx.h)(0x5087AE3A)
-I (uart0.h)(0x528D2154)
+I (uart0.h)(0x5290B8A2)
 I (lpc_types.h)(0x528801A6)
+I (..\..\FreeRTOS-Source\include\FreeRTOS.h)(0x525C2ACA)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
+I (..\..\FreeRTOS-Source\include\projdefs.h)(0x525C2ACA)
+I (.\FreeRTOSConfig.h)(0x528D2630)
+I (..\..\FreeRTOS-Source\include\portable.h)(0x525C2ACA)
+I (..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3\portmacro.h)(0x525C2ACA)
+I (..\..\FreeRTOS-Source\include\mpu_wrappers.h)(0x525C2ACA)
 I (uart_private.h)(0x5287FC54)
-I (SizedRingBuffer.h)(0x528D305C)
-I (UartConfig.h)(0x5288ECE6)
+I (..\..\FreeRTOS-Source\include\queue.h)(0x525C2ACA)
+I (UartConfig.h)(0x5290AE06)
 I (system_specific.h)(0x5288064C)
 F (.\SizedRingBuffer.c)(0x528D2E5A)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I. -I..\..\FreeRTOS-Source\include -I..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3 -I..\..\FreeRTOS-Source\demo_code -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -o ".\Output\sizedringbuffer.o" --omf_browse ".\Output\sizedringbuffer.crf" --depend ".\Output\sizedringbuffer.d")
 I (SizedRingBuffer.h)(0x528D305C)
