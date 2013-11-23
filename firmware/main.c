@@ -8,6 +8,7 @@
 #include "basic_io.h"
 
 #include "uart0.h"
+#include "servodriver.h"
 
 
 #define SC	(const signed char*)
@@ -18,13 +19,19 @@ void vReceiverTask(void *pvParameters);
 
 unsigned long ulTaskNumber[configEXPECTED_NO_RUNNING_TASKS];
 
+unsigned int prv_axServoOutputs[20] = {0};
+
 int main(void)
 {
+    //
+    
     if (!xUart0_init())
     {
         printf("UART0 init failed\n");
         while (1);
     }
+
+    vServoDriver_init();
 
     xTaskCreate(vTask, SC"Task 1", 200, NULL, 1, NULL);
     xTaskCreate(vReceiverTask, SC"UART Receive", 200, NULL, 1, NULL);
