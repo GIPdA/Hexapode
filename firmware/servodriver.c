@@ -247,7 +247,7 @@ void PWM1_IRQHandler(void) __irq
         prv_vServoDriver_setCompareMatch1((u32CurrentServoIndex+1)%10);
         prv_vServoDriver_setCompareMatch2((u32CurrentServoIndex+1)%10);
         
-        LPC_PWM1->IR |= IIR_PWMMR0;
+        LPC_PWM1->IR |= IIR_PWMMR0; // Clear flag
     }
 
     if (IRValue & IIR_PWMMR1)
@@ -256,7 +256,7 @@ void PWM1_IRQHandler(void) __irq
         // Set servo out pin low of current servo serie 1
         prv_vServoDriver_setServoOutputLow(SERIE_1_PIN(u32CurrentServoIndex));
         
-        LPC_PWM1->IR |= IIR_PWMMR1;
+        LPC_PWM1->IR |= IIR_PWMMR1; // Clear flag
     }
 
     if (IRValue & IIR_PWMMR2)
@@ -265,7 +265,7 @@ void PWM1_IRQHandler(void) __irq
         // Set servo out pin high of current servo serie 2
         prv_vServoDriver_setServoOutputHigh(SERIE_2_PIN(u32CurrentServoIndex));
         
-        LPC_PWM1->IR |= IIR_PWMMR2;
+        LPC_PWM1->IR |= IIR_PWMMR2; // Clear flag
     }
 }
 
