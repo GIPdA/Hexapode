@@ -18,16 +18,16 @@
 
 #include "UartConfig.h"
 
-#include "system_specific.h"
+//#include "system_specific.h"
 
 
 #ifndef UART0_BAUDRATE
 #error UART 0 baudrate is not specified. Please define UART0_BAUDRATE in UartConfig.h to desired baudrate.
 #endif
 
-#ifndef OSC_CLK
+/*#ifndef OSC_CLK
 #error System Core Clock is not specified. Please define OSC_CLK in system_specific.h.
-#endif
+#endif // */
 
 #ifndef UART0_RX_QUEUE_SIZE
 #error Rx queue size of UART 0 not defined. Please define UART0_RX_QUEUE_SIZE in UartConfig.h to desired queue size.
@@ -66,7 +66,7 @@ portBASE_TYPE xUart0_init()
         return pdFALSE;
 
     // PCLK_UART0 is being set to 1/4 of SystemCoreClock
-    pclk = OSC_CLK / 4;
+    pclk = SystemCoreClock / 4;
     
     // Turn on power to UART0
     LPC_SC->PCONP |=  PCUART0_POWERON;
