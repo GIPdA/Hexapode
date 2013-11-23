@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>LabFreeRTOS</TargetName>
+      <TargetName>Hexapode</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -44,7 +44,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Output\</OutputDirectory>
-          <OutputName>Lab001</OutputName>
+          <OutputName>Hexapode</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -350,7 +350,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\Lab001;..\..\FreeRTOS-Source\include;..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3;..\..\FreeRTOS-Source\demo_code</IncludePath>
+              <IncludePath>.;..\..\FreeRTOS-Source\include;..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3;..\..\FreeRTOS-Source\demo_code</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -416,10 +416,15 @@
               <FileType>1</FileType>
               <FilePath>..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</FilePath>
             </File>
+            <File>
+              <FileName>timers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FreeRTOS-Source\timers.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Demo_source</GroupName>
+          <GroupName>Hexapode_source</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
@@ -430,6 +435,16 @@
               <FileName>basic_io.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\FreeRTOS-Source\demo_code\basic_io.c</FilePath>
+            </File>
+            <File>
+              <FileName>servodriver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\servodriver.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart0.c</FilePath>
             </File>
           </Files>
         </Group>

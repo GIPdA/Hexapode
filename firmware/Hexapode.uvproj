@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>LabFreeRTOS</TargetName>
+      <TargetName>Hexapode</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -424,7 +424,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Demo_source</GroupName>
+          <GroupName>Hexapode_source</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
@@ -436,15 +436,30 @@
               <FileType>1</FileType>
               <FilePath>..\..\FreeRTOS-Source\demo_code\basic_io.c</FilePath>
             </File>
+            <File>
+              <FileName>servodriver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\servodriver.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart0.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>System_source</GroupName>
           <Files>
             <File>
-              <FileName>startup_MPS_CM3.s</FileName>
+              <FileName>system_LPC17xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system_LPC17xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_LPC17xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\startup_MPS_CM3.s</FilePath>
+              <FilePath>.\startup_LPC17xx.s</FilePath>
             </File>
           </Files>
         </Group>
