@@ -15,6 +15,7 @@
 
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "task.h"
 
 #include "UartConfig.h"
 
@@ -157,6 +158,8 @@ portBASE_TYPE xUart0_sendString(char *pcString, unsigned int *pu32BytesWritten, 
 {
     portBASE_TYPE status;
 
+    taskENTER_CRITICAL();
+
     if (pu32BytesWritten)
         *pu32BytesWritten = 0;
 
@@ -169,6 +172,7 @@ portBASE_TYPE xUart0_sendString(char *pcString, unsigned int *pu32BytesWritten, 
         if (pu32BytesWritten)
             *pu32BytesWritten++;
     }
+    taskEXIT_CRITICAL();
     return pdPASS;
 }
 
@@ -188,6 +192,8 @@ portBASE_TYPE xUart0_sendData(unsigned char *pu8Data, unsigned int u32DataSize,
     portBASE_TYPE status;
     unsigned int i;
 
+    taskENTER_CRITICAL();
+
     if (pu32BytesWritten)
         *pu32BytesWritten = 0;
 
@@ -200,6 +206,7 @@ portBASE_TYPE xUart0_sendData(unsigned char *pu8Data, unsigned int u32DataSize,
         if (pu32BytesWritten)
             *pu32BytesWritten++;
     }
+    taskEXIT_CRITICAL();
     return pdPASS;
 }
 
