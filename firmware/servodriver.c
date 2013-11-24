@@ -247,8 +247,8 @@ void PWM1_IRQHandler(void) __irq
         prv_vServoDriver_setServoOutputLow(SERIE_2_PIN(((u32CurrentServoIndex-1)%10)));
 
         // Set compare match of next servo
-        prv_vServoDriver_setCompareMatch1((u32CurrentServoIndex+1)%10);
-        prv_vServoDriver_setCompareMatch2((u32CurrentServoIndex+1)%10);
+        prv_vServoDriver_setCompareMatch1((u32CurrentServoIndex)%10);
+        prv_vServoDriver_setCompareMatch2((u32CurrentServoIndex)%10);
         LPC_PWM1->LER = (1<<1) | (1<<2);   // Enable MR1/2 Latches to update match values
         
         LPC_PWM1->IR |= IIR_PWMMR0; // Clear flag
