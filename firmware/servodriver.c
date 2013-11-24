@@ -155,6 +155,9 @@ void prv_vServoDriver_pwmInit(void)
  */
 void vServoDriver_setServoPosition(unsigned int u32ServoIndex, unsigned int u32PulseWidth)
 {
+    if (u32PulseWidth < 1000 || u32PulseWidth > 2000)
+        return;
+    
     if (u32ServoIndex <= 10) {
         prv_au32ServoSerie1HighTime_us[u32ServoIndex] = u32PulseWidth;
     } else if (u32ServoIndex < 20) {
