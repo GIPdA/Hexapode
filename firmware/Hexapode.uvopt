@@ -131,24 +131,7 @@
           <Name>-T0</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>145</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>V:\rtos\Hexapode\firmware\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -187,6 +170,11 @@
         </Ww>
         <Ww>
           <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>prv_axServoOutputs</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
           <WinNumber>1</WinNumber>
           <ItemText>ulTaskNumber</ItemText>
         </Ww>
@@ -266,8 +254,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>108</TopLine>
-      <CurrentLine>109</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\FreeRTOS-Source\list.c</PathWithFileName>
       <FilenameWithoutPath>list.c</FilenameWithoutPath>
@@ -282,8 +270,8 @@
       <Focus>0</Focus>
       <ColumnNumber>25</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1472</TopLine>
-      <CurrentLine>1480</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\FreeRTOS-Source\queue.c</PathWithFileName>
       <FilenameWithoutPath>queue.c</FilenameWithoutPath>
@@ -298,8 +286,8 @@
       <Focus>0</Focus>
       <ColumnNumber>24</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>2135</TopLine>
-      <CurrentLine>2144</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\FreeRTOS-Source\tasks.c</PathWithFileName>
       <FilenameWithoutPath>tasks.c</FilenameWithoutPath>
@@ -330,8 +318,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>360</TopLine>
-      <CurrentLine>364</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</PathWithFileName>
       <FilenameWithoutPath>port.c</FilenameWithoutPath>
@@ -368,10 +356,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>60</TopLine>
-      <CurrentLine>94</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>12</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -402,8 +390,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>99</TopLine>
-      <CurrentLine>102</CurrentLine>
+      <TopLine>151</TopLine>
+      <CurrentLine>166</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\servodriver.c</PathWithFileName>
       <FilenameWithoutPath>servodriver.c</FilenameWithoutPath>
@@ -426,6 +414,38 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>11</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>18</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>1</TopLine>
+      <CurrentLine>10</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\decoder.c</PathWithFileName>
+      <FilenameWithoutPath>decoder.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>12</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\decoder_servoposition.c</PathWithFileName>
+      <FilenameWithoutPath>decoder_servoposition.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -436,14 +456,14 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>11</FileNumber>
+      <FileNumber>13</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>43</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>294</TopLine>
-      <CurrentLine>162</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\system_LPC17xx.c</PathWithFileName>
       <FilenameWithoutPath>system_LPC17xx.c</FilenameWithoutPath>
@@ -452,14 +472,14 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>14</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>124</TopLine>
-      <CurrentLine>133</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup_LPC17xx.s</PathWithFileName>
       <FilenameWithoutPath>startup_LPC17xx.s</FilenameWithoutPath>

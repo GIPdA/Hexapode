@@ -446,6 +446,16 @@
               <FileType>1</FileType>
               <FilePath>.\uart0.c</FilePath>
             </File>
+            <File>
+              <FileName>decoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\decoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>decoder_servoposition.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\decoder_servoposition.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

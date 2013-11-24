@@ -452,9 +452,14 @@
           <GroupName>System_source</GroupName>
           <Files>
             <File>
-              <FileName>startup_MPS_CM3.s</FileName>
+              <FileName>system_LPC17xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system_LPC17xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_LPC17xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\startup_MPS_CM3.s</FilePath>
+              <FilePath>.\startup_LPC17xx.s</FilePath>
             </File>
           </Files>
         </Group>
