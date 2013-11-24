@@ -33,6 +33,8 @@ int main(void)
     }
 
     vServoDriver_init();
+    vServoDriver_setServoPosition(0, 1000);
+    vServoDriver_setServoPosition(1, 1000);
 
     xTaskCreate(vTask, SC"Task 1", 200, NULL, 1, NULL);
     xTaskCreate(vReceiverTask, SC"UART Receive", 200, NULL, 1, NULL);
