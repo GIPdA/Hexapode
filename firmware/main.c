@@ -1,60 +1,109 @@
 
-#include <lpc17xx.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "lpc_types.h"
 
+#include "board.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
-#include "basic_io.h"
-
-#include "uart0.h"
 #include "servodriver.h"
-#include "decoder.h"
 
 
-#define SC	(const signed char*)
-
-
-void vTask(void *pvParameters);
-void vReceiverTask(void *pvParameters);
-
-unsigned long ulTaskNumber[configEXPECTED_NO_RUNNING_TASKS];
-
+/*****************************************************************************
+ * Private types/enumerations/variables
+ ****************************************************************************/
 unsigned int prv_axServoOutputs[20] = {0};
 
+/*****************************************************************************
+ * Public types/enumerations/variables
+ ****************************************************************************/
 
+/*****************************************************************************
+ * Private functions
+ ****************************************************************************/
 
+/* Sets up system hardware */
+static void prvSetupHardware(void)
+{
+	Board_Init();
 
+	/* Initial LED0 state is off */
+	Board_LED_Set(0, false);
+}
+
+/* LED1 toggle thread */
+static portTASK_FUNCTION(vLEDTask1, pvParameters) {
+	bool LedState = false;
+
+	while (1) {
+		Board_LED_Set(0, LedState);
+		LedState = (bool) !LedState;
+
+		/* About a 3Hz on/off toggle rate */
+		vTaskDelay(configTICK_RATE_HZ / 6);
+	}
+}
+
+/* LED2 toggle thread */
+static portTASK_FUNCTION(vLEDTask2, pvParameters) {
+	bool LedState = false;
+
+	while (1) {
+		Board_LED_Set(1, LedState);
+		LedState = (bool) !LedState;
+
+		/* About a 7Hz on/off toggle rate */
+		vTaskDelay(configTICK_RATE_HZ / 14);
+	}
+}
+
+/* UART (or output) thread */
+static portTASK_FUNCTION(vUARTTask, pvParameters) {
+	int tickCnt = 0;
+
+	while (1) {
+		DEBUGOUT("Tick: %d\r\n", tickCnt);
+		tickCnt++;
+
+		/* About a 1s delay here */
+		vTaskDelay(configTICK_RATE_HZ);
+	}
+}
+
+/*****************************************************************************
+ * Public functions
+ ****************************************************************************/
+
+/**
+ * @brief	main routine for FreeRTOS blinky example
+ * @return	Nothing, function should not exit
+ */
 int main(void)
 {
-    //
-    
-    if (!xUart0_init())
-    {
-        printf("UART0 init failed\n");
-        while (1);
-    }
+	prvSetupHardware();
 
-    vServoDriver_init();
-    //vServoDriver_setServoPosition(0, 1000);
-    //vServoDriver_setServoPosition(1, 1000);
+	vServoDriver_init();
 
-    //xTaskCreate(vTask, SC"Task 1", 200, NULL, 1, NULL);
-    xTaskCreate(vATCommandsDecoderTask, SC"Command Decoder", 200, NULL, 2, NULL);
+	/* LED1 toggle thread */
+	xTaskCreate(vLEDTask1, (signed char *) "vTaskLed1",
+				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
+				(xTaskHandle *) NULL);
 
-    vTaskStartScheduler();
+	/* LED2 toggle thread */
+	xTaskCreate(vLEDTask2, (signed char *) "vTaskLed2",
+				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
+				(xTaskHandle *) NULL);
 
-    for(;;);
+	/* UART output thread, simply counts seconds */
+	xTaskCreate(vUARTTask, (signed char *) "vTaskUart",
+				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
+				(xTaskHandle *) NULL);
+
+	/* Start the scheduler */
+	vTaskStartScheduler();
+
+	/* Should never arrive here */
+	return 1;
 }
 
-void vTask(void *pvParameters)
-{
-    while (1) {
-        xUart0_sendString("Hexapode", 0, 100);
-        vTaskDelay(1000);
-    }
-}
-
+/**
+ * @}
+ */

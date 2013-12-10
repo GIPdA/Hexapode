@@ -11,11 +11,11 @@
  *  ************************************************************************** */
 
 #include <lpc17xx.h>
-#include "lpc_types.h"
-#include "FreeRTOSConfig.h"
+//#include "chip.h"
+//#include "FreeRTOSConfig.h"
 #include "servodriver.h"
 
-#define CLK_US  (configCPU_CLOCK_HZ/1000000)
+#define CLK_US  (( ( unsigned long ) SystemCoreClock )/1000000)
 #define PERIOD_REG_US(DELAY)    ((DELAY)*(CLK_US))
 
 #define IIR_PWMMR0 0x01
