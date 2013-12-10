@@ -1,5 +1,0 @@
--c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware 
--I C:\Keil\ARM\RV31\INC 
--I C:\Keil\ARM\CMSIS\Include 
--I C:\Keil\ARM\Inc\NXP\LPC17xx 
--DCORE_M3 -o ".\keil_output\main.o" --omf_browse ".\keil_output\main.crf" --depend ".\keil_output\main.d" "main.c"
