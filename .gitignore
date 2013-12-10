@@ -20,3 +20,5 @@
 firmware/Output
 firmware/Output/*
 firmware/._*
+firmware/keil_output
+firmware/keil_output/*
