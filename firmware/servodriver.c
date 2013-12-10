@@ -116,10 +116,10 @@ void prv_vServoDriver_pwmInit(void)
     
   // Clock setup in system_LPC17xx.c
     // Turn on power to PWM1
-    //LPC_SC->PCONP |=  (1 << 6);
+    LPC_SC->PCONP |=  (1 << 6);
     // Setup Clock
-    //LPC_SC->PCLKSEL0 &= ~(PCLK_PWM1_MASK);
-    //LPC_SC->PCLKSEL0 |=   PCLK_PWM1;     // PCLK_periph = CCLK
+    LPC_SC->PCLKSEL0 &= ~(PCLK_PWM1_MASK);
+    LPC_SC->PCLKSEL0 |=   PCLK_PWM1;     // PCLK_periph = CCLK
     
     LPC_PWM1->CTCR = 0x00;  // Count on prescaler
     LPC_PWM1->PR = 0;    // Prescaler = 0 -> Count = CLK
