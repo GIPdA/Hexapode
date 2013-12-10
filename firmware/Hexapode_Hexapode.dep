@@ -1,8 +1,8 @@
 Dependencies for Project 'hexapode', Target 'Hexapode': (DO NOT MODIFY !)
 F (.\startup_code\keil_freertos_startup_lpc17xx40xx.s)(0x518B9EF0)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK --cpreproc -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx --pd "CORE_M3 SETA 1" --list ".\keil_output\keil_freertos_startup_lpc17xx40xx.lst" --xref -o ".\keil_output\keil_freertos_startup_lpc17xx40xx.o" --depend ".\keil_output\keil_freertos_startup_lpc17xx40xx.d")
-F (.\main.c)(0x52A6E96B)(-c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -DCORE_M3 -o ".\keil_output\main.o" --omf_browse ".\keil_output\main.crf" --depend ".\keil_output\main.d")
+F (.\main.c)(0x52A6ED15)(-c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -DCORE_M3 -o ".\keil_output\main.o" --omf_browse ".\keil_output\main.crf" --depend ".\keil_output\main.d")
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -64,7 +64,7 @@ I (..\software\freertos\freertos\Source\include\mpu_wrappers.h)(0x518B8C60)
 I (..\software\freertos\freertos\Source\include\task.h)(0x518B8C60)
 I (..\software\freertos\freertos\Source\include\list.h)(0x518B8C60)
 I (servodriver.h)(0x52921692)
-F (.\servodriver.c)(0x52A6E93C)(-c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -DCORE_M3 -o ".\keil_output\servodriver.o" --omf_browse ".\keil_output\servodriver.crf" --depend ".\keil_output\servodriver.d")
+F (.\servodriver.c)(0x52A6EAF2)(-c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -DCORE_M3 -o ".\keil_output\servodriver.o" --omf_browse ".\keil_output\servodriver.crf" --depend ".\keil_output\servodriver.d")
 I (C:\Keil\ARM\Inc\NXP\LPC17xx\lpc17xx.h)(0x5087AE3A)
 I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x52A6E0DF)
 I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x52A6D473)
@@ -78,7 +78,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -142,7 +142,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -205,7 +205,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -270,7 +270,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -334,7 +334,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -400,7 +400,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -464,7 +464,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -529,7 +529,7 @@ I (C:\Keil\ARM\ARMCC\bin\..\include\stddef.h)(0x50F9C3C0)
 I (..\software\freertos\freertos\Source\include\projdefs.h)(0x518B8C60)
 I (..\firmware\FreeRTOSConfig.h)(0x518B8C02)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -589,7 +589,7 @@ I (..\software\freertos\freertos\Source\include\list.h)(0x518B8C60)
 I (..\software\freertos\freertoslpc\FreeRTOSCommonHooks.h)(0x518B8C66)
 F (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.c)(0x52A6D4A0)(-c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -DCORE_M3 -o ".\keil_output\board_lpc1766stk.o" --omf_browse ".\keil_output\board_lpc1766stk.crf" --depend ".\keil_output\board_lpc1766stk.d")
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
@@ -646,7 +646,7 @@ I (..\software\lpc_core\lpc_board\board_common\retarget.c)(0x518B8C66)
 I (C:\Keil\ARM\ARMCC\bin\..\include\rt_misc.h)(0x4EB15110)
 F (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sysinit_LPC1766STK.c)(0x52A6D4AE)(-c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I..\software\lpc_core\lpc_ip -I..\software\lpc_core\lpc_chip\chip_17xx_40xx -I..\software\lpc_core\lpc_chip\chip_common -I..\software\lpc_core\lpc_board\board_common -I..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK -I..\software\freertos\freertos\Source\include -I..\software\freertos\freertos\Source\portable\RVDS\ARM_CM3 -I..\firmware -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\NXP\LPC17xx -DCORE_M3 -o ".\keil_output\sysinit_lpc1766stk.o" --omf_browse ".\keil_output\sysinit_lpc1766stk.crf" --depend ".\keil_output\sysinit_lpc1766stk.d")
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board.h)(0x5294772A)
-I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6D4E4)
+I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\board_LPC1766STK.h)(0x52A6EE72)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip.h)(0x518B8C68)
 I (..\software\lpc_core\lpc_board\boards_17xx_40xx\LPC1766STK\sys_config.h)(0x5294785A)
 I (..\software\lpc_core\lpc_chip\chip_17xx_40xx\chip_lpc175x_6x.h)(0x52A6E92C)
