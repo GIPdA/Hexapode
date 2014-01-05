@@ -406,6 +406,11 @@
               <FileType>1</FileType>
               <FilePath>.\servodriver.c</FilePath>
             </File>
+            <File>
+              <FileName>tordriver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\tordriver.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
