@@ -78,7 +78,7 @@ extern unsigned int prv_axServoOutputs[20];
 
 
 
-void prv_vServoDriver_pwmInit(void);
+static void prv_vServoDriver_pwmInit(void);
 
 
 
@@ -108,7 +108,7 @@ void vServoDriver_init(void)
  *
  * @return None
  */
-void prv_vServoDriver_pwmInit(void)
+static void prv_vServoDriver_pwmInit(void)
 {
     // Match 0 : period
     // Match 1 : high time servo 1-10
