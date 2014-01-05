@@ -146,7 +146,7 @@ static void prv_vServoDriver_pwmInit(void)
 
 
 
-/**
+/*!
  * @brief Set the servo position in microseconds
  *
  * @param u32ServoIndex Servo index (0-19)
