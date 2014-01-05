@@ -5,12 +5,13 @@
 #include "task.h"
 
 #include "servodriver.h"
+#include "tordriver.h"
 
 
 /*****************************************************************************
  * Private types/enumerations/variables
  ****************************************************************************/
-unsigned int prv_axServoOutputs[20] = {0};
+unsigned int prv_axServoOutputs[20] = {0};  // For simulation
 
 /*****************************************************************************
  * Public types/enumerations/variables
@@ -81,6 +82,7 @@ int main(void)
 	prvSetupHardware();
 
 	vServoDriver_init();
+    vTOR_init();
 
 	/* LED1 toggle thread */
 	xTaskCreate(vLEDTask1, (signed char *) "vTaskLed1",
