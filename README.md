@@ -3,6 +3,8 @@ Hexapode
 
 Mini-projet hexapode
 
+/!\ Projet non fonctionnel
+
 
 ## Cahier des charges
 
