@@ -20,12 +20,8 @@
 
 /**@cond CMUCOM4_PRIVATE*******************************************************/
 
-// Handle Arduino Library renaming.
-#if defined(ARDUINO) && (ARDUINO >= 100)
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
+#include "board.h"
+#include "chip.h"
 
 // Try to save RAM for non-Mega boards.
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
@@ -128,25 +124,8 @@
 * This is a convenient macro for specifying the Serial port when initializing a
 * CMUcam4 or CMUcom4 object.
 *******************************************************************************/
-#define CMUCOM4_SERIAL              0
+#define CMUCOM4_SERIAL              LPC_UART2
 
-/***************************************************************************//**
-* This is a convenient macro for specifying the Serial1 port on an Arduino Mega
-* when initializing a CMUcam4 or CMUcom4 object.
-*******************************************************************************/
-#define CMUCOM4_SERIAL1             1
-
-/***************************************************************************//**
-* This is a convenient macro for specifying the Serial2 port on an Arduino Mega
-* when initializing a CMUcam4 or CMUcom4 object.
-*******************************************************************************/
-#define CMUCOM4_SERIAL2             2
-
-/***************************************************************************//**
-* This is a convenient macro for specifying the Serial3 port on an Arduino Mega
-* when initializing a CMUcam4 or CMUcom4 object.
-*******************************************************************************/
-#define CMUCOM4_SERIAL3             3
 
 /***************************************************************************//**
 * This is a hardware abstraction layer for the %CMUcam4 class. The %CMUcom4

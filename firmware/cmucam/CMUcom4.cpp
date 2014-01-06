@@ -16,6 +16,7 @@
 *******************************************************************************/
 
 #include "CMUcom4.h"
+#include "uart_17xx_40xx.h"
 
 /*******************************************************************************
 * Constructor Functions
@@ -23,7 +24,6 @@
 
 CMUcom4::CMUcom4()
 {
-    _port = CMUCOM4_SERIAL;
 }
 
 CMUcom4::CMUcom4(int port)
@@ -37,94 +37,49 @@ CMUcom4::CMUcom4(int port)
 
 void CMUcom4::begin(unsigned long baud)
 {
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-    switch(_port)
-    {
-        case CMUCOM4_SERIAL1: Serial1.begin(baud); break;
-        case CMUCOM4_SERIAL2: Serial2.begin(baud); break;
-        case CMUCOM4_SERIAL3: Serial3.begin(baud); break;
-        default: Serial.begin(baud); break;
-    }
-#else
-    Serial.begin(baud);
-#endif
-    delayMilliseconds(CMUCOM4_BEGIN_DELAY);
+    // Setup UART for 115.2K8N1
+    Chip_UART_Init(CMUCOM4_SERIAL);
+	Chip_UART_SetBaud(CMUCOM4_SERIAL, baud);
+	Chip_UART_ConfigData(CMUCOM4_SERIAL, UART_DATABIT_8, UART_PARITY_NONE, UART_STOPBIT_1);
+
+    // Enable UART Transmit
+	Chip_UART_TxCmd(CMUCOM4_SERIAL, ENABLE);
+    
+    //delayMilliseconds(CMUCOM4_BEGIN_DELAY);
 }
 
 void CMUcom4::end()
 {
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-    switch(_port)
-    {
-        case CMUCOM4_SERIAL1: Serial1.end(); break;
-        case CMUCOM4_SERIAL2: Serial2.end(); break;
-        case CMUCOM4_SERIAL3: Serial3.end(); break;
-        default: Serial.end(); break;
-    }
-#else
-    Serial.end();
-#endif
-    delayMilliseconds(CMUCOM4_END_DELAY);
+    Chip_UART_TxCmd(CMUCOM4_SERIAL, DISABLE);
+    Chip_UART_DeInit(CMUCOM4_SERIAL);
 }
 
 int CMUcom4::read()
 {
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-    switch(_port)
-    {
-        case CMUCOM4_SERIAL1: return Serial1.read(); break;
-        case CMUCOM4_SERIAL2: return Serial2.read(); break;
-        case CMUCOM4_SERIAL3: return Serial3.read(); break;
-        default: return Serial.read(); break;
-    }
-#else
-    return Serial.read();
-#endif
+    uint8_t data;
+
+	if (Chip_UART_ReceiveByte(CMUCOM4_SERIAL, &data) == SUCCESS) {
+		return (int) data;
+	}
+    
+    return EOF;
 }
 
 size_t CMUcom4::write(uint8_t c)
 {
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-    switch(_port)
-    {
-        case CMUCOM4_SERIAL1: return Serial1.write(c); break;
-        case CMUCOM4_SERIAL2: return Serial2.write(c); break;
-        case CMUCOM4_SERIAL3: return Serial3.write(c); break;
-        default: return Serial.write(c); break;
-    }
-#else
-    return Serial.write(c);
-#endif
+    while (Chip_UART_SendByte(CMUCOM4_SERIAL, (uint8_t) c) == ERROR) {}
 }
 
 size_t CMUcom4::write(const char * str)
 {
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-    switch(_port)
-    {
-        case CMUCOM4_SERIAL1: return Serial1.write(str); break;
-        case CMUCOM4_SERIAL2: return Serial2.write(str); break;
-        case CMUCOM4_SERIAL3: return Serial3.write(str); break;
-        default: return Serial.write(str); break;
-    }
-#else
-    return Serial.write(str);
-#endif
+    while (*str != '\0') {
+		write(*str++);
+	}
 }
 
 size_t CMUcom4::write(const uint8_t * buffer, size_t size)
 {
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-    switch(_port)
-    {
-        case CMUCOM4_SERIAL1: return Serial1.write(buffer, size); break;
-        case CMUCOM4_SERIAL2: return Serial2.write(buffer, size); break;
-        case CMUCOM4_SERIAL3: return Serial3.write(buffer, size); break;
-        default: return Serial.write(buffer, size); break;
-    }
-#else
-    return Serial.write(buffer, size);
-#endif
+    return Chip_UART_Send(CMUCOM4_SERIAL, buffer, size, BLOCKING);
 }
 
 int CMUcom4::available()
