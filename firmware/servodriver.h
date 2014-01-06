@@ -79,7 +79,6 @@ Declare 'unsigned int prv_axServoOutputs[20] = {0};' in main.c with debug mode u
 /*!
  * @brief Initialisation des 20 PWM ( réglage GPIO et timer)
  *
- * @param Frequency, Fréquence du CCLK en MHz
  * @return None
  */
 void vServoDriver_init(void);
@@ -97,7 +96,7 @@ void vServoDriver_setServoPosition(unsigned int u32ServoIndex, unsigned int u32P
  * @brief Set the servo position as angle
  *
  * @param u32ServoIndex Servo index (0-19)
- * @param u32PulseWidth Servo angle in range 0-180°
+ * @param fAngle Servo angle in range 0-180°
  * @return None
  */
 void vServoDriver_setServoAngle(unsigned int u32ServoIndex, float fAngle);

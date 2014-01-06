@@ -1,12 +1,11 @@
 /*! ************************************************************************** *
  * @file servodriver.c
  * @brief Servo control library. Generate 20 servomotor PWM outputs.
+ * See header file for details.
  *
  *
  * @author Benjamin Balga
  * @version 1.0
- *
- * @changelog 17-11-2013
  *
  *  ************************************************************************** */
 
@@ -86,11 +85,8 @@ static void prv_vServoDriver_pwmInit(void);
 /*! ************************************************************************** *
  * @brief Initialisation des 20 PWM ( réglage GPIO et timer)
  *
- * @param Frequency, Fréquence du CCLK en MHz
- * @return Void
+ * @return None
  *  ************************************************************************** */
-//configCPU_CLOCK_HZ
-
 void vServoDriver_init(void)
 {
     unsigned int i;
@@ -170,7 +166,7 @@ void vServoDriver_setServoPosition(unsigned int u32ServoIndex, unsigned int u32P
  * @brief Set the servo position as angle
  *
  * @param u32ServoIndex Servo index (0-19)
- * @param u32PulseWidth Servo angle in range 0-180°
+ * @param fAngle Servo angle in range 0-180°
  * @return None
  */
 void vServoDriver_setServoAngle(unsigned int u32ServoIndex, float fAngle)
