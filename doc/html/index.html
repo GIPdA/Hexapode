@@ -101,6 +101,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Mini-projet hexapode</p>
+<p>/!\ Projet non fonctionnel</p>
 <h2>Cahier des charges</h2>
 <p>Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur FreeRTOS. Le robot sera piloté via une liaison série sans fil type ZigBee.</p>
 <h4>Mécanique</h4>
@@ -130,12 +131,32 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>Documentation du code avec une syntaxe compatible doxygen</li>
 <li>Rédaction d'un manuel utilisateur</li>
 </ul>
-<h2>Découpage du projet</h2>
-<p>Le développement est découpé en plusieurs tâches, chacune étant indépendante mais peut en nécessiter d'autres pour fonctionner (contraintes de précédence).</p>
-<h5>Tâche: Interface de communication</h5>
+<h2>Fonctionnement global</h2>
+<p>Le système est architecturé autour de tâches gatekeeper gérant le matériel, de tâches de contrôle et un interpréteur. Cet interpréteur est la passerelle entre le robot et le "monde extérieur" et parle "actions" côté robot et "commandes AT" de l'autre. Chaque tâche écoute des actions particulières et en émet vers l'interpréteur. Charge à l'interpréteur de renvoyer les actions vers d'autres tâches ou de convertir ces actions en commande AT et inversement et si nécessaire. Les tâches gatekeeper n'émettent pas d'actions mais peuvent en écouter (configuration par ex.).</p>
+<p>Une action est une structure de type Action qui contient un identifiant d'action destiné à reconnaitre le type de donnée associée. Cet ID permet également de transférer l'action aux tâches qui l'écoutent (via des queues FreeRTOS).</p>
+<p>Action { ActionID xID; void *pvData; }</p>
+<h2>Interpréteur</h2>
+<p>L'interpréteur :</p>
+<ul>
+<li>converti les commande AT en actions</li>
+<li>écoute les actions émises par les tâches de contrôle (Queue)</li>
+<li>renvoi les actions reçues vers d'autres tâches qui les écoutent (vers Queues)</li>
+<li>converti les actions en commandes AT si nécessaire</li>
+</ul>
+<p>Interface : ATComCom (voir tâches gatekeeper)</p>
+<ul>
+<li>Entrée : FIFO (Queue)<ul>
+<li>Type de donnée : Action</li>
+</ul>
+</li>
+<li>Sortie : aucune</li>
+</ul>
+<h3>Tâches gatekeeper</h3>
+<p>Les tâches gatekeeper gèrent le matériel. Elle peuvent écouter des actions mais pas en émettre. Chaque tâche met une donnée à disposition des autres tâches de façon sécurisée (mutex, sémaphore ou queue).</p>
+<h4>Tâche: Interface de communication (ATComCom [AT Commands Communication])</h4>
 <p>Tâche en charge de gérer la liaison série et de transférer les commandes AT.</p>
 <ul>
-<li>Hardware : UART<ul>
+<li>Hardware : UART (LPCOpen UART)</li>
 <li>Entrée : FIFO (Queue)<ul>
 <li>Type de donnée : structure xATCommand</li>
 </ul>
@@ -145,34 +166,73 @@ $(document).ready(function(){initNavTree('index.html','');});
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<h5>Tâche: Télémètre infrarouge</h5>
-<p>Tâche en charge de gérer le télémètre infrarouge. Lit la tension de sortie du Sharp pour la convertir en distance.</p>
+<h4>Tâche: Télémètre infrarouge</h4>
+<p>Tâche en charge de gérer le télémètre infrarouge. Lit la tension de sortie du Sharp pour la convertir en distance. La conversion est effectuée à intervalles régulières.</p>
 <ul>
-<li>Hardware : ADC</li>
+<li>Hardware : ADC (LPCOpen ADC)</li>
 <li>Entrée : auncune</li>
 <li>Sortie : distance en cm<ul>
 <li>Type de donnée : entier (8 ou 16 bits)</li>
+<li>Sécurité : Mutex</li>
 </ul>
 </li>
 </ul>
-<h5>Tâche: Contacts TOR (pieds)</h5>
-<p>Tâche en charge de gérer l'état des contacts des pieds. Envoi des commandes AT à l'interface de communication lors de changement des états (pas d'interruptions).</p>
+<h4>Tâche: Contacts TOR (pieds)</h4>
+<p>Tâche en charge de gérer l'état des contacts des pieds. (mode pooling ou via interruptions)</p>
 <ul>
-<li>Hardware : GPIO</li>
-<li>Entrée : auncune</li>
-<li>Sortie : distance en cm<ul>
-<li>Type de donnée : entier (8 ou 16 bits) </li>
+<li>Hardware : GPIO (LPCOpen GPIO)</li>
+<li>Entrée : aucune</li>
+<li>Sortie : champ de bit<ul>
+<li>Type de donnée : entier (32 bits)</li>
+<li>Sécurité : Mutex</li>
 </ul>
 </li>
 </ul>
+<h3>Tâches de contrôle</h3>
+<h4>Tâche: CMUcam</h4>
+<p>Tâche en charge de gérer la CMUcam.</p>
+<ul>
+<li>Interface : CMUcom (interface de comm avec la CMUcam)</li>
+<li>Entrée : Action CMUcamIn</li>
+<li>Sortie : Action CMUcamOut</li>
+</ul>
+<h4>Tâche: ArmControl</h4>
+<p>Tâche en charge de gérer les mouvements des pattes de l'hexapode via les servomoteurs (interface de haut niveau).</p>
+<ul>
+<li>Interface : ServoDriver (interface de pilotage des servomoteurs)</li>
+<li>Entrée : Action ArmMovement</li>
+<li>Sortie : Action ArmStatus</li>
+</ul>
+<h4>Tâche: HeadControl</h4>
+<p>Tâche en charge de gérer les mouvements de la tête supportant la CMUcam et le capteur de distance (interface de haut niveau).</p>
+<ul>
+<li>Interface : ServoDriver (interface de pilotage des servomoteurs)</li>
+<li>Entrée : Action HeadMovement</li>
+<li>Sortie : Action ArmStatus</li>
+</ul>
+<h4>Tâche: Movement</h4>
+<p>Tâche permettant de contrôler les mouvements de l'hexapode de façon simple (avancer, tourner, etc). Coordonne les mouvements des pattes pour générer des mouvements cohérents.</p>
+<ul>
+<li>Interface : ArmControl</li>
+<li>Entrée : Action Movement</li>
+<li>Sortie : Action MovementStatus</li>
+</ul>
+<h3>Librairies</h3>
+<p>Les librairies sont créées pour contrôler le hardware. Ce ne sont pas des tâches et ne doivent pas en dépendre.</p>
+<h4>Librairie : contrôle servomoteurs (ServoDriver)</h4>
+<p>Permet de contrôler les servomoteurs. Le module PWM1 est utilisé pour générer les 20 signaux avec une période de 21ms et une précision à la microseconde. Voir le fichier <a class="el" href="servodriver_8h.html" title="Librairie g�rant 20 sorties servomoteurs. Les signaux sont g�n�r�s avec le module PWM. Le temps haut est de...">servodriver.h</a> pour les détails sur son fonctionnement.</p>
+<h4>Librairie : interface TOR</h4>
+<p>La librairie TOR permet de récupérer l'état des capteurs TOR des pieds de l'hexapode.</p>
+<h4>Librairie : interface Sharp</h4>
+<p>La librairie IR_Sharp gère le ou les capteurs IR Sharp du robot. Elle permet de récupérer la distance en centimètres. /!\ Seul le canal 0 est fonctionnel</p>
+<h4>Librairie : interface CMUcam (CMUcom)</h4>
+<p>Le portage de la librairie Arduino pour la CMUcam4 était prévu, mais devant la masse de travail il a été abandonné. Une méthode pour le portage consiste à effectuer un wrapper de CMUcom4 pour LPCOpen, mais des problèmes se posent en raison de l'architecture de l'interface UART de LPCOpen qui ne s'y prête pas vraiment. Autre solution : porter CMUcam4.c/.h pour utiliser LPCOpen. 2000 lignes de code à analyser. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jan 6 2014 21:02:54 for Hexapode by
+    <li class="footer">Generated on Mon Jan 6 2014 23:24:43 for Hexapode by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

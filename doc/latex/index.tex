@@ -1,5 +1,7 @@
 Mini-\/projet hexapode
 
+/!\textbackslash{} Projet non fonctionnel
+
 \subsection*{Cahier des charges}
 
 Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur Free\-R\-T\-O\-S. Le robot sera piloté via une liaison série sans fil type Zig\-Bee.
@@ -42,18 +44,44 @@ Fonctionnalités\-:
 \item Rédaction d'un manuel utilisateur
 \end{DoxyItemize}
 
-\subsection*{Découpage du projet}
+\subsection*{Fonctionnement global}
 
-Le développement est découpé en plusieurs tâches, chacune étant indépendante mais peut en nécessiter d'autres pour fonctionner (contraintes de précédence).
+Le système est architecturé autour de tâches gatekeeper gérant le matériel, de tâches de contrôle et un interpréteur. Cet interpréteur est la passerelle entre le robot et le \char`\"{}monde extérieur\char`\"{} et parle \char`\"{}actions\char`\"{} côté robot et \char`\"{}commandes A\-T\char`\"{} de l'autre. Chaque tâche écoute des actions particulières et en émet vers l'interpréteur. Charge à l'interpréteur de renvoyer les actions vers d'autres tâches ou de convertir ces actions en commande A\-T et inversement et si nécessaire. Les tâches gatekeeper n'émettent pas d'actions mais peuvent en écouter (configuration par ex.).
 
-\subparagraph*{Tâche\-: Interface de communication}
+Une action est une structure de type Action qui contient un identifiant d'action destiné à reconnaitre le type de donnée associée. Cet I\-D permet également de transférer l'action aux tâches qui l'écoutent (via des queues Free\-R\-T\-O\-S).
+
+Action \{ Action\-I\-D x\-I\-D; void $\ast$pv\-Data; \}
+
+\subsection*{Interpréteur}
+
+L'interpréteur \-:
+\begin{DoxyItemize}
+\item converti les commande A\-T en actions
+\item écoute les actions émises par les tâches de contrôle (Queue)
+\item renvoi les actions reçues vers d'autres tâches qui les écoutent (vers Queues)
+\item converti les actions en commandes A\-T si nécessaire
+\end{DoxyItemize}
+
+Interface \-: A\-T\-Com\-Com (voir tâches gatekeeper)
+\begin{DoxyItemize}
+\item Entrée \-: F\-I\-F\-O (Queue)
+\begin{DoxyItemize}
+\item Type de donnée \-: Action
+\end{DoxyItemize}
+\item Sortie \-: aucune
+\end{DoxyItemize}
+
+\subsubsection*{Tâches gatekeeper}
+
+Les tâches gatekeeper gèrent le matériel. Elle peuvent écouter des actions mais pas en émettre. Chaque tâche met une donnée à disposition des autres tâches de façon sécurisée (mutex, sémaphore ou queue).
+
+\paragraph*{Tâche\-: Interface de communication (A\-T\-Com\-Com \mbox{[}A\-T Commands Communication\mbox{]})}
 
 Tâche en charge de gérer la liaison série et de transférer les commandes A\-T.
 
 
 \begin{DoxyItemize}
-\item Hardware \-: U\-A\-R\-T
-\begin{DoxyItemize}
+\item Hardware \-: U\-A\-R\-T (L\-P\-C\-Open U\-A\-R\-T)
 \item Entrée \-: F\-I\-F\-O (Queue)
 \begin{DoxyItemize}
 \item Type de donnée \-: structure x\-A\-T\-Command
@@ -63,32 +91,99 @@ Tâche en charge de gérer la liaison série et de transférer les commandes A\-
 \item Type de donnée \-: structure x\-A\-T\-Command
 \end{DoxyItemize}
 \end{DoxyItemize}
-\end{DoxyItemize}
 
-\subparagraph*{Tâche\-: Télémètre infrarouge}
+\paragraph*{Tâche\-: Télémètre infrarouge}
 
-Tâche en charge de gérer le télémètre infrarouge. Lit la tension de sortie du Sharp pour la convertir en distance.
+Tâche en charge de gérer le télémètre infrarouge. Lit la tension de sortie du Sharp pour la convertir en distance. La conversion est effectuée à intervalles régulières.
 
 
 \begin{DoxyItemize}
-\item Hardware \-: A\-D\-C
+\item Hardware \-: A\-D\-C (L\-P\-C\-Open A\-D\-C)
 \item Entrée \-: auncune
 \item Sortie \-: distance en cm
 \begin{DoxyItemize}
 \item Type de donnée \-: entier (8 ou 16 bits)
+\item Sécurité \-: Mutex
 \end{DoxyItemize}
 \end{DoxyItemize}
 
-\subparagraph*{Tâche\-: Contacts T\-O\-R (pieds)}
+\paragraph*{Tâche\-: Contacts T\-O\-R (pieds)}
 
-Tâche en charge de gérer l'état des contacts des pieds. Envoi des commandes A\-T à l'interface de communication lors de changement des états (pas d'interruptions).
+Tâche en charge de gérer l'état des contacts des pieds. (mode pooling ou via interruptions)
 
 
 \begin{DoxyItemize}
-\item Hardware \-: G\-P\-I\-O
-\item Entrée \-: auncune
-\item Sortie \-: distance en cm
+\item Hardware \-: G\-P\-I\-O (L\-P\-C\-Open G\-P\-I\-O)
+\item Entrée \-: aucune
+\item Sortie \-: champ de bit
 \begin{DoxyItemize}
-\item Type de donnée \-: entier (8 ou 16 bits) 
+\item Type de donnée \-: entier (32 bits)
+\item Sécurité \-: Mutex
 \end{DoxyItemize}
 \end{DoxyItemize}
+
+\subsubsection*{Tâches de contrôle}
+
+\paragraph*{Tâche\-: C\-M\-Ucam}
+
+Tâche en charge de gérer la C\-M\-Ucam.
+
+
+\begin{DoxyItemize}
+\item Interface \-: C\-M\-Ucom (interface de comm avec la C\-M\-Ucam)
+\item Entrée \-: Action C\-M\-Ucam\-In
+\item Sortie \-: Action C\-M\-Ucam\-Out
+\end{DoxyItemize}
+
+\paragraph*{Tâche\-: Arm\-Control}
+
+Tâche en charge de gérer les mouvements des pattes de l'hexapode via les servomoteurs (interface de haut niveau).
+
+
+\begin{DoxyItemize}
+\item Interface \-: Servo\-Driver (interface de pilotage des servomoteurs)
+\item Entrée \-: Action Arm\-Movement
+\item Sortie \-: Action Arm\-Status
+\end{DoxyItemize}
+
+\paragraph*{Tâche\-: Head\-Control}
+
+Tâche en charge de gérer les mouvements de la tête supportant la C\-M\-Ucam et le capteur de distance (interface de haut niveau).
+
+
+\begin{DoxyItemize}
+\item Interface \-: Servo\-Driver (interface de pilotage des servomoteurs)
+\item Entrée \-: Action Head\-Movement
+\item Sortie \-: Action Arm\-Status
+\end{DoxyItemize}
+
+\paragraph*{Tâche\-: Movement}
+
+Tâche permettant de contrôler les mouvements de l'hexapode de façon simple (avancer, tourner, etc). Coordonne les mouvements des pattes pour générer des mouvements cohérents.
+
+
+\begin{DoxyItemize}
+\item Interface \-: Arm\-Control
+\item Entrée \-: Action Movement
+\item Sortie \-: Action Movement\-Status
+\end{DoxyItemize}
+
+\subsubsection*{Librairies}
+
+Les librairies sont créées pour contrôler le hardware. Ce ne sont pas des tâches et ne doivent pas en dépendre.
+
+\paragraph*{Librairie \-: contrôle servomoteurs (Servo\-Driver)}
+
+Permet de contrôler les servomoteurs. Le module P\-W\-M1 est utilisé pour générer les 20 signaux avec une période de 21ms et une précision à la microseconde. Voir le fichier \hyperlink{servodriver_8h}{servodriver.\-h} pour les détails sur son fonctionnement.
+
+\paragraph*{Librairie \-: interface T\-O\-R}
+
+La librairie T\-O\-R permet de récupérer l'état des capteurs T\-O\-R des pieds de l'hexapode.
+
+\paragraph*{Librairie \-: interface Sharp}
+
+La librairie I\-R\-\_\-\-Sharp gère le ou les capteurs I\-R Sharp du robot. Elle permet de récupérer la distance en centimètres. /!\textbackslash{} Seul le canal 0 est fonctionnel
+
+\paragraph*{Librairie \-: interface C\-M\-Ucam (C\-M\-Ucom)}
+
+Le portage de la librairie Arduino pour la C\-M\-Ucam4 était prévu, mais devant la masse de travail il a été abandonné. Une méthode pour le portage consiste à effectuer un wrapper de C\-M\-Ucom4 pour L\-P\-C\-Open, mais des problèmes se posent en raison de l'architecture de l'interface U\-A\-R\-T de L\-P\-C\-Open qui ne s'y prête pas vraiment. Autre solution \-: porter C\-M\-Ucam4.\-c/.h pour utiliser L\-P\-C\-Open. 2000 lignes de code à analyser. 
