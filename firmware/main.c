@@ -6,6 +6,7 @@
 
 #include "servodriver.h"
 #include "tordriver.h"
+#include "IR_sharp.h"
 
 
 /*****************************************************************************
@@ -83,6 +84,9 @@ int main(void)
 
 	vServoDriver_init();
     vTOR_init();
+    vIR_sharp_init();
+
+    float result = fIR_sharp_GetValue(0);	// Test
 
 	/* LED1 toggle thread */
 	xTaskCreate(vLEDTask1, (signed char *) "vTaskLed1",
