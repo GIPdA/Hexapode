@@ -34,34 +34,116 @@ Fonctionnalités:
  * Rédaction d'un manuel utilisateur
 
 
-## Découpage du projet
+## Fonctionnement global
 
-Le développement est découpé en plusieurs tâches, chacune étant indépendante mais peut en nécessiter d'autres pour fonctionner (contraintes de précédence).
+Le système est architecturé autour de tâches gatekeeper gérant le matériel, de tâches de contrôle et un interpréteur. Cet interpréteur est la passerelle entre le robot et le "monde extérieur" et parle "actions" côté robot et "commandes AT" de l'autre. Chaque tâche écoute des actions particulières et en émet vers l'interpréteur. Charge à l'interpréteur de renvoyer les actions vers d'autres tâches ou de convertir ces actions en commande AT et inversement et si nécessaire.
+Les tâches gatekeeper n'émettent pas d'actions mais peuvent en écouter (configuration par ex.).
 
-##### Tâche: Interface de communication
+Une action est une structure de type Action qui contient un identifiant d'action destiné à reconnaitre le type de donnée associée. Cet ID permet également de transférer l'action aux tâches qui l'écoutent (via des queues FreeRTOS).
+
+  Action {
+    ActionID xID;
+    void *pvData;
+  }
+
+
+## Interpréteur
+
+L'interpréteur :
+ - converti les commande AT en actions
+ - écoute les actions émises par les tâches de contrôle (Queue)
+ - renvoi les actions reçues vers d'autres tâches qui les écoutent (vers Queues)
+ - converti les actions en commandes AT si nécessaire
+
+
+* Interface : ATComCom (voir tâches gatekeeper)
+* Entrée : FIFO (Queue)
+  * Type de donnée : Action
+* Sortie : aucune
+
+
+### Tâches gatekeeper
+
+Les tâches gatekeeper gèrent le matériel. Elle peuvent écouter des actions mais pas en émettre. Chaque tâche met une donnée à disposition des autres tâches de façon sécurisée (mutex, sémaphore ou queue).
+
+#### Tâche: Interface de communication (ATComCom [AT Commands Communication])
 Tâche en charge de gérer la liaison série et de transférer les commandes AT.
 
-* Hardware : UART
- * Entrée : FIFO (Queue)
-   * Type de donnée : structure xATCommand
- * Sortie : FIFO (Queue)
-   * Type de donnée : structure xATCommand
+* Hardware : UART (LPCOpen UART)
+* Entrée : FIFO (Queue)
+  * Type de donnée : structure xATCommand
+* Sortie : FIFO (Queue)
+  * Type de donnée : structure xATCommand
 
 
-##### Tâche: Télémètre infrarouge
+#### Tâche: Télémètre infrarouge
 Tâche en charge de gérer le télémètre infrarouge. Lit la tension de sortie du Sharp pour la convertir en distance.
+La conversion est effectuée à intervalles régulières.
 
-* Hardware : ADC
+* Hardware : ADC (LPCOpen ADC)
 * Entrée : auncune
 * Sortie : distance en cm
   * Type de donnée : entier (8 ou 16 bits)
+  * Sécurité : Mutex
 
-##### Tâche: Contacts TOR (pieds)
-Tâche en charge de gérer l'état des contacts des pieds. Envoi des commandes AT à l'interface de communication lors de changement des états (pas d'interruptions).
 
-* Hardware : GPIO
-* Entrée : auncune
-* Sortie : distance en cm
-  * Type de donnée : entier (8 ou 16 bits)
+#### Tâche: Contacts TOR (pieds)
+Tâche en charge de gérer l'état des contacts des pieds. (mode pooling ou via interruptions)
 
+* Hardware : GPIO (LPCOpen GPIO)
+* Entrée : aucune
+* Sortie : champ de bit
+  * Type de donnée : entier (32 bits)
+  * Sécurité : Mutex
+
+
+### Tâches de contrôle
+
+#### Tâche: CMUcam
+Tâche en charge de gérer la CMUcam.
+
+* Interface : CMUcom (interface de comm avec la CMUcam)
+* Entrée : Action CMUcamIn
+* Sortie : Action CMUcamOut
+
+
+#### Tâche: ArmControl
+Tâche en charge de gérer les mouvements des pattes de l'hexapode via les servomoteurs (interface de haut niveau).
+
+* Interface : ServoDriver (interface de pilotage des servomoteurs)
+* Entrée : Action ArmMovement
+* Sortie : Action ArmStatus
+
+
+#### Tâche: HeadControl
+Tâche en charge de gérer les mouvements de la tête supportant la CMUcam et le capteur de distance (interface de haut niveau).
+
+* Interface : ServoDriver (interface de pilotage des servomoteurs)
+* Entrée : Action HeadMovement
+* Sortie : Action ArmStatus
+
+
+#### Tâche: Movement
+Tâche permettant de contrôler les mouvements de l'hexapode de façon simple (avancer, tourner, etc). Coordonne les mouvements des pattes pour générer des mouvements cohérents.
+
+* Interface : -
+* Entrée : Action Movement
+* Sortie : Actions MovementStatus, ArmMovement
+
+
+### Librairies
+Les librairies sont créées pour contrôler le hardware. Ce ne sont pas des tâches et ne doivent pas en dépendre.
+
+#### Librairie : contrôle servomoteurs (ServoDriver)
+Permet de contrôler les servomoteurs. Le module PWM1 est utilisé pour générer les 20 signaux avec une période de 21ms et une précision à la microseconde. Voir le fichier servodriver.h pour les détails sur son fonctionnement.
+
+#### Librairie : interface TOR
+La librairie TOR permet de récupérer l'état des capteurs TOR des pieds de l'hexapode.
+
+#### Librairie : interface Sharp
+La librairie IR_Sharp gère le ou les capteurs IR Sharp du robot. Elle permet de récupérer la distance en centimètres.
+/!\ Seul le canal 0 est fonctionnel
+
+#### Librairie : interface CMUcam (CMUcom)
+Le portage de la librairie Arduino pour la CMUcam4 était prévu, mais devant la masse de travail il a été abandonné. Une méthode pour le portage consiste à effectuer un wrapper de CMUcom4 pour LPCOpen, mais des problèmes se posent en raison de l'architecture de l'interface UART de LPCOpen qui ne s'y prête pas vraiment. Autre solution : porter CMUcam4.c/.h pour utiliser LPCOpen. 2000 lignes de code à analyser.
 
