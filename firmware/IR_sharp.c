@@ -1,5 +1,3 @@
-#include <lpc17xx.h>
-#include "IR_sharp.h"
 /*! ************************************************************************** *
  * @file IR_sharp.c
  * @brief Library for infrared telemeter sensor from Sharp.
@@ -10,8 +8,9 @@
  *
  *  ************************************************************************** */
 
+#include "board.h"
+#include "IR_sharp.h"
 
-float fIR_sharp_GetValue(uint8_t channel);
 
 
 /*! ************************************************************************** *

@@ -12,6 +12,8 @@
 #ifndef IR_sharp_H_
 #define IR_sharp_H_
 
+#include <stdint.h>
+
 void vIR_sharp_init(void);
 float fIR_sharp_GetValue(uint8_t channel);
 
