@@ -1,29 +1,23 @@
+#include <lpc17xx.h>
+#include "IR_sharp.h"
 /*! ************************************************************************** *
  * @file IR_sharp.c
- * @brief Servo control library. Generate 20 servomotor PWM outputs.
+ * @brief Library for infrared telemeter sensor from Sharp.
  *
  *
  * @author Cédric CHRETIEN
  * @version 1.0
  *
- * @changelog 04-01-2014
- *
  *  ************************************************************************** */
-
-#include <lpc17xx.h>
-#include "IR_sharp.h"
 
 
 float fIR_sharp_GetValue(uint8_t channel);
 
 
-
-
 /*! ************************************************************************** *
  * @brief Initialisation 
  *
- * @param void
- * @return Void
+ * @return None
  *  ************************************************************************** */
 
 void vIR_sharp_init(void)
@@ -33,10 +27,10 @@ void vIR_sharp_init(void)
 }
 
 /*! ************************************************************************** *
- * @brief Get value in cm
+ * @brief Get value in centimeters
  *
- * @param void
- * @return Value, Value in cm
+ * @param channel Channel to use. Currently only channel 0 supported.
+ * @return Distance in centimeters
  *  ************************************************************************** */
 
 float fIR_sharp_GetValue(uint8_t channel)

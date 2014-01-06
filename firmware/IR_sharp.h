@@ -1,13 +1,10 @@
 /*! ************************************************************************** *
  * @file IR_sharp.h
- * @brief librairie de controle hexapode
- *
+ * @brief Library for infrared telemeter sensor from Sharp.
  *
  *
  * @author Cédric CHRETIEN
  * @version 1.0
- *
- * @changelog 04-01-2014
  *
  *  ************************************************************************** */
 
