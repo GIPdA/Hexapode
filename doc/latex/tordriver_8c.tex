@@ -1,0 +1,53 @@
+\hypertarget{tordriver_8c}{\section{firmware/tordriver.c File Reference}
+\label{tordriver_8c}\index{firmware/tordriver.\-c@{firmware/tordriver.\-c}}
+}
+{\ttfamily \#include \char`\"{}tordriver.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}board.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_t_o_r_input}{T\-O\-R\-Input}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tordriver_8c_a3e3a2610879e5cd43e7dc4ca82cb6161}{v\-T\-O\-R\-\_\-init} ()
+\begin{DoxyCompactList}\small\item\em Initialize the T\-O\-R subsystem (set G\-P\-I\-Os). \end{DoxyCompactList}\item 
+bool \hyperlink{tordriver_8c_ab88a4a6e94ab7696edf23951b9afde3b}{b\-T\-O\-R\-\_\-read} (uint8\-\_\-t tor\-Num)
+\begin{DoxyCompactList}\small\item\em Read a T\-O\-R input. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{tordriver_8c_ab88a4a6e94ab7696edf23951b9afde3b}{\index{tordriver.\-c@{tordriver.\-c}!b\-T\-O\-R\-\_\-read@{b\-T\-O\-R\-\_\-read}}
+\index{b\-T\-O\-R\-\_\-read@{b\-T\-O\-R\-\_\-read}!tordriver.c@{tordriver.\-c}}
+\subsubsection[{b\-T\-O\-R\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}bool b\-T\-O\-R\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{tor\-Num}
+\end{DoxyParamCaption}
+)}}\label{tordriver_8c_ab88a4a6e94ab7696edf23951b9afde3b}
+
+
+Read a T\-O\-R input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tor\-Num} & Index of T\-O\-R input to read \-: \mbox{[}0 ; (T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X-\/1)\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\hypertarget{tordriver_8c_a3e3a2610879e5cd43e7dc4ca82cb6161}{\index{tordriver.\-c@{tordriver.\-c}!v\-T\-O\-R\-\_\-init@{v\-T\-O\-R\-\_\-init}}
+\index{v\-T\-O\-R\-\_\-init@{v\-T\-O\-R\-\_\-init}!tordriver.c@{tordriver.\-c}}
+\subsubsection[{v\-T\-O\-R\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void v\-T\-O\-R\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tordriver_8c_a3e3a2610879e5cd43e7dc4ca82cb6161}
+
+
+Initialize the T\-O\-R subsystem (set G\-P\-I\-Os). 
+
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}

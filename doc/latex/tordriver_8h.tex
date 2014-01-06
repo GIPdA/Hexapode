@@ -1,0 +1,139 @@
+\hypertarget{tordriver_8h}{\section{firmware/tordriver.h File Reference}
+\label{tordriver_8h}\index{firmware/tordriver.\-h@{firmware/tordriver.\-h}}
+}
+
+
+Librairie pour gérer 6 entrées T\-O\-R.  
+
+
+{\ttfamily \#include $<$stdint.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}board.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tordriver_8h_a754461e72ab2638820cbea9734ba421a}{T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X}~6
+\item 
+\#define \hyperlink{tordriver_8h_aaa4e7a104cbaa71b86aa72b6ed4244d4}{T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_af8940bbf0ff0be141f28d25e750e98e2}{T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_a317cf680691a274724aed80b3858c93c}{T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_a6861cf9de59665732b1b1b95709aa7dc}{T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}~1
+\item 
+\#define \hyperlink{tordriver_8h_ac72c6e6eda14123a49a4f21b87a86703}{T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_a5bbd42f48e6149538bcc6e5352a77fb1}{T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}~2
+\item 
+\#define \hyperlink{tordriver_8h_ab72263220ae21de6d49271762986c573}{T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_a971243c20e287de6eb84f61e92a55265}{T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}~3
+\item 
+\#define \hyperlink{tordriver_8h_a565bc6ab1d035df290832feccb423d45}{T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_a5fa8842308338f3a8a6b9987d72a04fe}{T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}~4
+\item 
+\#define \hyperlink{tordriver_8h_af3dc17b62d84b593f1a5e90f729f98ff}{T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}~0
+\item 
+\#define \hyperlink{tordriver_8h_a7482c6cc9339899d6499734ff10a2ad4}{T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}~5
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tordriver_8h_af949fdec9f98d8936abdff438ec0b3fe}{v\-T\-O\-R\-\_\-init} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the T\-O\-R subsystem (set G\-P\-I\-Os). \end{DoxyCompactList}\item 
+bool \hyperlink{tordriver_8h_ab88a4a6e94ab7696edf23951b9afde3b}{b\-T\-O\-R\-\_\-read} (uint8\-\_\-t tor\-Num)
+\begin{DoxyCompactList}\small\item\em Read a T\-O\-R input. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Librairie pour gérer 6 entrées T\-O\-R. 
+
+
+
+\begin{DoxyAuthor}{Author}
+Benjamin Balga 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0
+\end{DoxyVersion}
+
+
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tordriver_8h_a754461e72ab2638820cbea9734ba421a}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X@{T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X}}
+\index{T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X@{T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X~6}}\label{tordriver_8h_a754461e72ab2638820cbea9734ba421a}
+The number of T\-O\-R inputs to monitor. You need to modify the lookup table in \hyperlink{tordriver_8c}{tordriver.\-c} if you change this number. \hypertarget{tordriver_8h_af8940bbf0ff0be141f28d25e750e98e2}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W1\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_af8940bbf0ff0be141f28d25e750e98e2}
+\hypertarget{tordriver_8h_aaa4e7a104cbaa71b86aa72b6ed4244d4}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W1\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_aaa4e7a104cbaa71b86aa72b6ed4244d4}
+Definitions of each T\-O\-R tuple\-: port \& bit index \hypertarget{tordriver_8h_a6861cf9de59665732b1b1b95709aa7dc}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W2\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M~1}}\label{tordriver_8h_a6861cf9de59665732b1b1b95709aa7dc}
+\hypertarget{tordriver_8h_a317cf680691a274724aed80b3858c93c}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W2\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_a317cf680691a274724aed80b3858c93c}
+\hypertarget{tordriver_8h_a5bbd42f48e6149538bcc6e5352a77fb1}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W3\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M~2}}\label{tordriver_8h_a5bbd42f48e6149538bcc6e5352a77fb1}
+\hypertarget{tordriver_8h_ac72c6e6eda14123a49a4f21b87a86703}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W3\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_ac72c6e6eda14123a49a4f21b87a86703}
+\hypertarget{tordriver_8h_a971243c20e287de6eb84f61e92a55265}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W4\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M~3}}\label{tordriver_8h_a971243c20e287de6eb84f61e92a55265}
+\hypertarget{tordriver_8h_ab72263220ae21de6d49271762986c573}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W4\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_ab72263220ae21de6d49271762986c573}
+\hypertarget{tordriver_8h_a5fa8842308338f3a8a6b9987d72a04fe}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W5\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M~4}}\label{tordriver_8h_a5fa8842308338f3a8a6b9987d72a04fe}
+\hypertarget{tordriver_8h_a565bc6ab1d035df290832feccb423d45}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W5\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_a565bc6ab1d035df290832feccb423d45}
+\hypertarget{tordriver_8h_a7482c6cc9339899d6499734ff10a2ad4}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W6\-\_\-\-B\-I\-T\-\_\-\-N\-U\-M~5}}\label{tordriver_8h_a7482c6cc9339899d6499734ff10a2ad4}
+\hypertarget{tordriver_8h_af3dc17b62d84b593f1a5e90f729f98ff}{\index{tordriver.\-h@{tordriver.\-h}!T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}}
+\index{T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M@{T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-O\-R\-\_\-\-S\-W6\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M~0}}\label{tordriver_8h_af3dc17b62d84b593f1a5e90f729f98ff}
+
+
+\subsection{Function Documentation}
+\hypertarget{tordriver_8h_ab88a4a6e94ab7696edf23951b9afde3b}{\index{tordriver.\-h@{tordriver.\-h}!b\-T\-O\-R\-\_\-read@{b\-T\-O\-R\-\_\-read}}
+\index{b\-T\-O\-R\-\_\-read@{b\-T\-O\-R\-\_\-read}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{b\-T\-O\-R\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}bool b\-T\-O\-R\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{tor\-Num}
+\end{DoxyParamCaption}
+)}}\label{tordriver_8h_ab88a4a6e94ab7696edf23951b9afde3b}
+
+
+Read a T\-O\-R input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tor\-Num} & Index of T\-O\-R input to read \-: \mbox{[}0 ; (T\-O\-R\-\_\-\-I\-N\-P\-U\-T\-S\-\_\-\-M\-A\-X-\/1)\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\hypertarget{tordriver_8h_af949fdec9f98d8936abdff438ec0b3fe}{\index{tordriver.\-h@{tordriver.\-h}!v\-T\-O\-R\-\_\-init@{v\-T\-O\-R\-\_\-init}}
+\index{v\-T\-O\-R\-\_\-init@{v\-T\-O\-R\-\_\-init}!tordriver.h@{tordriver.\-h}}
+\subsubsection[{v\-T\-O\-R\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void v\-T\-O\-R\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tordriver_8h_af949fdec9f98d8936abdff438ec0b3fe}
+
+
+Initialize the T\-O\-R subsystem (set G\-P\-I\-Os). 
+
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}

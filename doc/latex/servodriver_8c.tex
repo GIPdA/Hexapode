@@ -1,0 +1,225 @@
+\hypertarget{servodriver_8c}{\section{firmware/servodriver.c File Reference}
+\label{servodriver_8c}\index{firmware/servodriver.\-c@{firmware/servodriver.\-c}}
+}
+
+
+Servo control library. Generate 20 servomotor P\-W\-M outputs. See header file for details.  
+
+
+{\ttfamily \#include $<$lpc17xx.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}servodriver.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structx_servo_out}{x\-Servo\-Out}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{servodriver_8c_a15a03e01ad53038c29561795eb6ca889}{C\-L\-K\-\_\-\-U\-S}~(( ( unsigned long ) System\-Core\-Clock )/1000000)
+\item 
+\#define \hyperlink{servodriver_8c_a9f9e09c2986fe223b535431a78cfa6b3}{P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S}(D\-E\-L\-A\-Y)~((D\-E\-L\-A\-Y)$\ast$(\hyperlink{servodriver_8c_a15a03e01ad53038c29561795eb6ca889}{C\-L\-K\-\_\-\-U\-S}))
+\item 
+\#define \hyperlink{servodriver_8c_ae4cb30697809e6c5a4348061baf413a1}{I\-I\-R\-\_\-\-P\-W\-M\-M\-R0}~0x01
+\item 
+\#define \hyperlink{servodriver_8c_ac12b761775b6d0baa6447b03803a51e7}{I\-I\-R\-\_\-\-P\-W\-M\-M\-R1}~0x02
+\item 
+\#define \hyperlink{servodriver_8c_aebd3f34eb1c0c2139486364e0278f5d5}{I\-I\-R\-\_\-\-P\-W\-M\-M\-R2}~0x04
+\item 
+\#define \hyperlink{servodriver_8c_a2957e306a018028431802de9d518fe8c}{P\-C\-L\-K\-\_\-\-P\-W\-M1}~(1 $<$$<$ 12)
+\item 
+\#define \hyperlink{servodriver_8c_a2e57e8994256494ccfc45ed53aabefc0}{P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K}~(3 $<$$<$ 12)
+\item 
+\#define \hyperlink{servodriver_8c_a31ee3f929e83f3886d02acc816280082}{B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D}~2100
+\item 
+\#define \hyperlink{servodriver_8c_a1bf9a1562620c7dcc41727742fe58d67}{S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y}(I\-N\-D\-E\-X)~\{S\-E\-R\-V\-O\#\#I\-N\-D\-E\-X\#\#\-\_\-\-O\-U\-T\-\_\-\-P\-O\-R\-T, S\-E\-R\-V\-O\#\#I\-N\-D\-E\-X\#\#\-\_\-\-O\-U\-T\-\_\-\-P\-I\-N\}
+\item 
+\#define \hyperlink{servodriver_8c_a80ac77f33c613949d87b82c02eefd11e}{S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N}(I\-N\-D\-E\-X)~(I\-N\-D\-E\-X)
+\item 
+\#define \hyperlink{servodriver_8c_ad1d866a5b9c4e693c383842432ac6c5c}{S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N}(I\-N\-D\-E\-X)~(10+I\-N\-D\-E\-X)
+\item 
+\#define \hyperlink{servodriver_8c_aca76d787cbe5ae000a7b5fabc90ab3d4}{M\-A\-P}(V\-A\-L, F\-R\-O\-M\-L\-O\-W, F\-R\-O\-M\-H\-I\-G\-H, T\-O\-L\-O\-W, T\-O\-H\-I\-G\-H)~((V\-A\-L-\/F\-R\-O\-M\-L\-O\-W)$\ast$(T\-O\-H\-I\-G\-H-\/T\-O\-L\-O\-W) / (F\-R\-O\-M\-H\-I\-G\-H-\/F\-R\-O\-M\-L\-O\-W) + T\-O\-L\-O\-W)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{servodriver_8c_a8521e5f9c329ed1e6b2ee6cfa042a4fb}{v\-Servo\-Driver\-\_\-init} (void)
+\begin{DoxyCompactList}\small\item\em Initialisation des 20 P\-W\-M ( réglage G\-P\-I\-O et timer) \end{DoxyCompactList}\item 
+void \hyperlink{servodriver_8c_afd409187c8a2332cbfc3cccaea374bb8}{v\-Servo\-Driver\-\_\-set\-Servo\-Position} (unsigned int u32\-Servo\-Index, unsigned int u32\-Pulse\-Width)
+\begin{DoxyCompactList}\small\item\em Set the servo position in microseconds. \end{DoxyCompactList}\item 
+void \hyperlink{servodriver_8c_a3283998484b9ff3145f2a75877ce5364}{v\-Servo\-Driver\-\_\-set\-Servo\-Angle} (unsigned int u32\-Servo\-Index, float f\-Angle)
+\begin{DoxyCompactList}\small\item\em Set the servo position as angle. \end{DoxyCompactList}\item 
+void \hyperlink{servodriver_8c_a723f02b408796deff17d7d759ac68819}{P\-W\-M1\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em P\-W\-M1 Interrupt. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \hyperlink{servodriver_8c_a21e6b7b6c547335faa572b966a8a0451}{prv\-\_\-ax\-Servo\-Outputs} \mbox{[}20\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Servo control library. Generate 20 servomotor P\-W\-M outputs. See header file for details. 
+
+
+
+\begin{DoxyAuthor}{Author}
+Benjamin Balga 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0
+\end{DoxyVersion}
+
+
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{servodriver_8c_a31ee3f929e83f3886d02acc816280082}{\index{servodriver.\-c@{servodriver.\-c}!B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D@{B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D}}
+\index{B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D@{B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-A\-S\-E\-\_\-\-P\-E\-R\-I\-O\-D~2100}}\label{servodriver_8c_a31ee3f929e83f3886d02acc816280082}
+\hypertarget{servodriver_8c_a15a03e01ad53038c29561795eb6ca889}{\index{servodriver.\-c@{servodriver.\-c}!C\-L\-K\-\_\-\-U\-S@{C\-L\-K\-\_\-\-U\-S}}
+\index{C\-L\-K\-\_\-\-U\-S@{C\-L\-K\-\_\-\-U\-S}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{C\-L\-K\-\_\-\-U\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\-L\-K\-\_\-\-U\-S~(( ( unsigned long ) System\-Core\-Clock )/1000000)}}\label{servodriver_8c_a15a03e01ad53038c29561795eb6ca889}
+\hypertarget{servodriver_8c_ae4cb30697809e6c5a4348061baf413a1}{\index{servodriver.\-c@{servodriver.\-c}!I\-I\-R\-\_\-\-P\-W\-M\-M\-R0@{I\-I\-R\-\_\-\-P\-W\-M\-M\-R0}}
+\index{I\-I\-R\-\_\-\-P\-W\-M\-M\-R0@{I\-I\-R\-\_\-\-P\-W\-M\-M\-R0}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{I\-I\-R\-\_\-\-P\-W\-M\-M\-R0}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-I\-R\-\_\-\-P\-W\-M\-M\-R0~0x01}}\label{servodriver_8c_ae4cb30697809e6c5a4348061baf413a1}
+\hypertarget{servodriver_8c_ac12b761775b6d0baa6447b03803a51e7}{\index{servodriver.\-c@{servodriver.\-c}!I\-I\-R\-\_\-\-P\-W\-M\-M\-R1@{I\-I\-R\-\_\-\-P\-W\-M\-M\-R1}}
+\index{I\-I\-R\-\_\-\-P\-W\-M\-M\-R1@{I\-I\-R\-\_\-\-P\-W\-M\-M\-R1}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{I\-I\-R\-\_\-\-P\-W\-M\-M\-R1}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-I\-R\-\_\-\-P\-W\-M\-M\-R1~0x02}}\label{servodriver_8c_ac12b761775b6d0baa6447b03803a51e7}
+\hypertarget{servodriver_8c_aebd3f34eb1c0c2139486364e0278f5d5}{\index{servodriver.\-c@{servodriver.\-c}!I\-I\-R\-\_\-\-P\-W\-M\-M\-R2@{I\-I\-R\-\_\-\-P\-W\-M\-M\-R2}}
+\index{I\-I\-R\-\_\-\-P\-W\-M\-M\-R2@{I\-I\-R\-\_\-\-P\-W\-M\-M\-R2}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{I\-I\-R\-\_\-\-P\-W\-M\-M\-R2}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-I\-R\-\_\-\-P\-W\-M\-M\-R2~0x04}}\label{servodriver_8c_aebd3f34eb1c0c2139486364e0278f5d5}
+\hypertarget{servodriver_8c_aca76d787cbe5ae000a7b5fabc90ab3d4}{\index{servodriver.\-c@{servodriver.\-c}!M\-A\-P@{M\-A\-P}}
+\index{M\-A\-P@{M\-A\-P}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{M\-A\-P}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-A\-P(
+\begin{DoxyParamCaption}
+\item[{}]{V\-A\-L, }
+\item[{}]{F\-R\-O\-M\-L\-O\-W, }
+\item[{}]{F\-R\-O\-M\-H\-I\-G\-H, }
+\item[{}]{T\-O\-L\-O\-W, }
+\item[{}]{T\-O\-H\-I\-G\-H}
+\end{DoxyParamCaption}
+)~((V\-A\-L-\/F\-R\-O\-M\-L\-O\-W)$\ast$(T\-O\-H\-I\-G\-H-\/T\-O\-L\-O\-W) / (F\-R\-O\-M\-H\-I\-G\-H-\/F\-R\-O\-M\-L\-O\-W) + T\-O\-L\-O\-W)}}\label{servodriver_8c_aca76d787cbe5ae000a7b5fabc90ab3d4}
+\hypertarget{servodriver_8c_a2957e306a018028431802de9d518fe8c}{\index{servodriver.\-c@{servodriver.\-c}!P\-C\-L\-K\-\_\-\-P\-W\-M1@{P\-C\-L\-K\-\_\-\-P\-W\-M1}}
+\index{P\-C\-L\-K\-\_\-\-P\-W\-M1@{P\-C\-L\-K\-\_\-\-P\-W\-M1}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{P\-C\-L\-K\-\_\-\-P\-W\-M1}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\-C\-L\-K\-\_\-\-P\-W\-M1~(1 $<$$<$ 12)}}\label{servodriver_8c_a2957e306a018028431802de9d518fe8c}
+\hypertarget{servodriver_8c_a2e57e8994256494ccfc45ed53aabefc0}{\index{servodriver.\-c@{servodriver.\-c}!P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K@{P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K}}
+\index{P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K@{P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\-C\-L\-K\-\_\-\-P\-W\-M1\-\_\-\-M\-A\-S\-K~(3 $<$$<$ 12)}}\label{servodriver_8c_a2e57e8994256494ccfc45ed53aabefc0}
+\hypertarget{servodriver_8c_a9f9e09c2986fe223b535431a78cfa6b3}{\index{servodriver.\-c@{servodriver.\-c}!P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S@{P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S}}
+\index{P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S@{P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\-E\-R\-I\-O\-D\-\_\-\-R\-E\-G\-\_\-\-U\-S(
+\begin{DoxyParamCaption}
+\item[{}]{D\-E\-L\-A\-Y}
+\end{DoxyParamCaption}
+)~((D\-E\-L\-A\-Y)$\ast$({\bf C\-L\-K\-\_\-\-U\-S}))}}\label{servodriver_8c_a9f9e09c2986fe223b535431a78cfa6b3}
+\hypertarget{servodriver_8c_a80ac77f33c613949d87b82c02eefd11e}{\index{servodriver.\-c@{servodriver.\-c}!S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N@{S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N}}
+\index{S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N@{S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-E\-R\-I\-E\-\_\-1\-\_\-\-P\-I\-N(
+\begin{DoxyParamCaption}
+\item[{}]{I\-N\-D\-E\-X}
+\end{DoxyParamCaption}
+)~(I\-N\-D\-E\-X)}}\label{servodriver_8c_a80ac77f33c613949d87b82c02eefd11e}
+\hypertarget{servodriver_8c_ad1d866a5b9c4e693c383842432ac6c5c}{\index{servodriver.\-c@{servodriver.\-c}!S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N@{S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N}}
+\index{S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N@{S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-E\-R\-I\-E\-\_\-2\-\_\-\-P\-I\-N(
+\begin{DoxyParamCaption}
+\item[{}]{I\-N\-D\-E\-X}
+\end{DoxyParamCaption}
+)~(10+I\-N\-D\-E\-X)}}\label{servodriver_8c_ad1d866a5b9c4e693c383842432ac6c5c}
+\hypertarget{servodriver_8c_a1bf9a1562620c7dcc41727742fe58d67}{\index{servodriver.\-c@{servodriver.\-c}!S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y@{S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y}}
+\index{S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y@{S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-E\-R\-V\-O\-\_\-\-O\-U\-T\-\_\-\-E\-N\-T\-R\-Y(
+\begin{DoxyParamCaption}
+\item[{}]{I\-N\-D\-E\-X}
+\end{DoxyParamCaption}
+)~\{S\-E\-R\-V\-O\#\#I\-N\-D\-E\-X\#\#\-\_\-\-O\-U\-T\-\_\-\-P\-O\-R\-T, S\-E\-R\-V\-O\#\#I\-N\-D\-E\-X\#\#\-\_\-\-O\-U\-T\-\_\-\-P\-I\-N\}}}\label{servodriver_8c_a1bf9a1562620c7dcc41727742fe58d67}
+
+
+\subsection{Function Documentation}
+\hypertarget{servodriver_8c_a723f02b408796deff17d7d759ac68819}{\index{servodriver.\-c@{servodriver.\-c}!P\-W\-M1\-\_\-\-I\-R\-Q\-Handler@{P\-W\-M1\-\_\-\-I\-R\-Q\-Handler}}
+\index{P\-W\-M1\-\_\-\-I\-R\-Q\-Handler@{P\-W\-M1\-\_\-\-I\-R\-Q\-Handler}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{P\-W\-M1\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void P\-W\-M1\-\_\-\-I\-R\-Q\-Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{servodriver_8c_a723f02b408796deff17d7d759ac68819}
+
+
+P\-W\-M1 Interrupt. 
+
+
+
+ \begin{DoxyReturn}{Returns}
+None 
+
+ 
+\end{DoxyReturn}
+\hypertarget{servodriver_8c_a8521e5f9c329ed1e6b2ee6cfa042a4fb}{\index{servodriver.\-c@{servodriver.\-c}!v\-Servo\-Driver\-\_\-init@{v\-Servo\-Driver\-\_\-init}}
+\index{v\-Servo\-Driver\-\_\-init@{v\-Servo\-Driver\-\_\-init}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{v\-Servo\-Driver\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void v\-Servo\-Driver\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{servodriver_8c_a8521e5f9c329ed1e6b2ee6cfa042a4fb}
+
+
+Initialisation des 20 P\-W\-M ( réglage G\-P\-I\-O et timer) 
+
+
+
+ \begin{DoxyReturn}{Returns}
+None 
+
+ 
+\end{DoxyReturn}
+\hypertarget{servodriver_8c_a3283998484b9ff3145f2a75877ce5364}{\index{servodriver.\-c@{servodriver.\-c}!v\-Servo\-Driver\-\_\-set\-Servo\-Angle@{v\-Servo\-Driver\-\_\-set\-Servo\-Angle}}
+\index{v\-Servo\-Driver\-\_\-set\-Servo\-Angle@{v\-Servo\-Driver\-\_\-set\-Servo\-Angle}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{v\-Servo\-Driver\-\_\-set\-Servo\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}void v\-Servo\-Driver\-\_\-set\-Servo\-Angle (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{u32\-Servo\-Index, }
+\item[{float}]{f\-Angle}
+\end{DoxyParamCaption}
+)}}\label{servodriver_8c_a3283998484b9ff3145f2a75877ce5364}
+
+
+Set the servo position as angle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u32\-Servo\-Index} & Servo index (0-\/19) \\
+\hline
+{\em f\-Angle} & Servo angle in range 0-\/180° \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\hypertarget{servodriver_8c_afd409187c8a2332cbfc3cccaea374bb8}{\index{servodriver.\-c@{servodriver.\-c}!v\-Servo\-Driver\-\_\-set\-Servo\-Position@{v\-Servo\-Driver\-\_\-set\-Servo\-Position}}
+\index{v\-Servo\-Driver\-\_\-set\-Servo\-Position@{v\-Servo\-Driver\-\_\-set\-Servo\-Position}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{v\-Servo\-Driver\-\_\-set\-Servo\-Position}]{\setlength{\rightskip}{0pt plus 5cm}void v\-Servo\-Driver\-\_\-set\-Servo\-Position (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{u32\-Servo\-Index, }
+\item[{unsigned int}]{u32\-Pulse\-Width}
+\end{DoxyParamCaption}
+)}}\label{servodriver_8c_afd409187c8a2332cbfc3cccaea374bb8}
+
+
+Set the servo position in microseconds. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u32\-Servo\-Index} & Servo index (0-\/19) \\
+\hline
+{\em u32\-Pulse\-Width} & Pulse time in microseconds (1000-\/2000) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\hypertarget{servodriver_8c_a21e6b7b6c547335faa572b966a8a0451}{\index{servodriver.\-c@{servodriver.\-c}!prv\-\_\-ax\-Servo\-Outputs@{prv\-\_\-ax\-Servo\-Outputs}}
+\index{prv\-\_\-ax\-Servo\-Outputs@{prv\-\_\-ax\-Servo\-Outputs}!servodriver.c@{servodriver.\-c}}
+\subsubsection[{prv\-\_\-ax\-Servo\-Outputs}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int prv\-\_\-ax\-Servo\-Outputs\mbox{[}20\mbox{]}}}\label{servodriver_8c_a21e6b7b6c547335faa572b966a8a0451}

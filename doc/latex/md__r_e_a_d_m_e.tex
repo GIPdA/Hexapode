@@ -1,0 +1,96 @@
+@ mainpage Hexapode Documentation \section*{Hexapode }
+
+Mini-\/projet hexapode
+
+\subsection*{Cahier des charges}
+
+Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur Free\-R\-T\-O\-S. Le robot sera piloté via une liaison série sans fil type Zig\-Bee.
+
+\paragraph*{Mécanique}
+
+Le robot hexapode dispose de 6 pattes en 2 rangées, chaque patte est articulée en trois points via 3 servomoteurs classiques de modélisme. À cela s'ajoute une tourelle 2 axes sur l'avant équipée d'un télémètre infrarouge et d'une caméra C\-M\-U\-C\-A\-M2. De plus, chaque patte possède un contact T\-O\-R au bout du pied.
+
+\paragraph*{Électronique}
+
+La cible est un L\-P\-C17xx auquel sont connectés directement tous les éléments du robot \-: contacts T\-O\-R des pieds, servomoteurs, télémètre, caméra, etc.
+
+\paragraph*{Firmware}
+
+Fonctionnalités\-:
+
+
+\begin{DoxyItemize}
+\item Pilotage à partir d'un terminal série standard
+\begin{DoxyItemize}
+\item Utilisation simple via des commandes type \char`\"{}\-A\-T\char`\"{} définies dans le manuel utilisateur
+\end{DoxyItemize}
+\item Affichage des informations de contact des pieds
+\begin{DoxyItemize}
+\item Envoi automatique de l'état sur la la liaison série (commande A\-T)
+\end{DoxyItemize}
+\item Affichage des informations de la tête chercheuse
+\begin{DoxyItemize}
+\item À définir
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\paragraph*{Contraintes de développement}
+
+
+\begin{DoxyItemize}
+\item Utilisation de git
+\item Utilisation de Keil/\-Real\-View
+\item Documentation du code avec une syntaxe compatible doxygen
+\item Rédaction d'un manuel utilisateur
+\end{DoxyItemize}
+
+\subsection*{Découpage du projet}
+
+Le développement est découpé en plusieurs tâches, chacune étant indépendante mais peut en nécessiter d'autres pour fonctionner (contraintes de précédence).
+
+\subparagraph*{Tâche\-: Interface de communication}
+
+Tâche en charge de gérer la liaison série et de transférer les commandes A\-T.
+
+
+\begin{DoxyItemize}
+\item Hardware \-: U\-A\-R\-T
+\begin{DoxyItemize}
+\item Entrée \-: F\-I\-F\-O (Queue)
+\begin{DoxyItemize}
+\item Type de donnée \-: structure x\-A\-T\-Command
+\end{DoxyItemize}
+\item Sortie \-: F\-I\-F\-O (Queue)
+\begin{DoxyItemize}
+\item Type de donnée \-: structure x\-A\-T\-Command
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subparagraph*{Tâche\-: Télémètre infrarouge}
+
+Tâche en charge de gérer le télémètre infrarouge. Lit la tension de sortie du Sharp pour la convertir en distance.
+
+
+\begin{DoxyItemize}
+\item Hardware \-: A\-D\-C
+\item Entrée \-: auncune
+\item Sortie \-: distance en cm
+\begin{DoxyItemize}
+\item Type de donnée \-: entier (8 ou 16 bits)
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subparagraph*{Tâche\-: Contacts T\-O\-R (pieds)}
+
+Tâche en charge de gérer l'état des contacts des pieds. Envoi des commandes A\-T à l'interface de communication lors de changement des états (pas d'interruptions).
+
+
+\begin{DoxyItemize}
+\item Hardware \-: G\-P\-I\-O
+\item Entrée \-: auncune
+\item Sortie \-: distance en cm
+\begin{DoxyItemize}
+\item Type de donnée \-: entier (8 ou 16 bits) 
+\end{DoxyItemize}
+\end{DoxyItemize}
