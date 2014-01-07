@@ -3,7 +3,7 @@
  * @brief Library for infrared telemeter sensor from Sharp.
  *
  *
- * @author Cédric CHRETIEN
+ * @author CŽdric CHRETIEN
  * @version 1.0
  *
  *  ************************************************************************** */

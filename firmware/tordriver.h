@@ -1,6 +1,6 @@
 /*! ************************************************************************** *
  * @file tordriver.h
- * @brief Librairie pour gérer 6 entrées TOR
+ * @brief Librairie pour grer 6 entres TOR
  *
  *
  * @author Benjamin Balga

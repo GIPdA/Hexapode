@@ -1,3 +1,12 @@
+/*! ************************************************************************** *
+ * @file tordriver.c
+ * @brief Librairie pour gérer 6 entrées TOR
+ *
+ *
+ * @author Benjamin Balga
+ * @version 1.0
+ *
+ *  ************************************************************************** */
 
 #include "tordriver.h"
 #include "board.h"

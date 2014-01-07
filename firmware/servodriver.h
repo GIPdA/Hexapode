@@ -1,10 +1,10 @@
 /*! ************************************************************************** *
  * @file servodriver.h
- * @brief Librairie gérant 20 sorties servomoteurs.
- *  Les signaux sont générés avec le module PWM. Le temps haut est de 1 à 2ms.
+ * @brief Librairie grant 20 sorties servomoteurs.
+ *  Les signaux sont gnrs avec le module PWM. Le temps haut est de 1 à 2ms.
  *
- * Les signaux sont générés en 2 séries (2*10), chaque série via un compare match.
- * Les deux séries sont générés en asymétrique et simultanément :
+ * Les signaux sont gnrs en 2 sries (2*10), chaque srie via un compare match.
+ * Les deux sries sont gnres en asymtrique et simultanment :
  *
  *     |  *   *   *   *   *   *   * 2.1ms period
  *     |  *__ *   *
@@ -15,9 +15,9 @@
  * S10 |___|  |_________________
  *     |...
  *
- * La période de 2.1ms permet de laisser un délai supplémentaire entre les deux signaux
- * pour n'avoir aucun risque d'avoir 2 signaux à traiter en même temps.
- * La période est légèrement allongée (21ms) mais cela n'a aucune influence perceptible.
+ * La priode de 2.1ms permet de laisser un dlai supplmentaire entre les deux signaux
+ * pour n'avoir aucun risque d'avoir 2 signaux ˆ traiter en mme temps.
+ * La priode est lgrement allonge (21ms) mais cela n'a aucune influence perceptible.
  *
  * @author Benjamin Balga
  * @version 1.0
@@ -77,7 +77,7 @@ Declare 'unsigned int prv_axServoOutputs[20] = {0};' in main.c with debug mode u
 
 
 /*!
- * @brief Initialisation des 20 PWM ( réglage GPIO et timer)
+ * @brief Initialisation des 20 PWM ( rglage GPIO et timer)
  *
  * @return None
  */
