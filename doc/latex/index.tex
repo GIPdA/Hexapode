@@ -1,10 +1,14 @@
 Mini-\/projet hexapode
 
-/!\textbackslash{} Projet non fonctionnel
+/!\textbackslash{} Projet non fonctionnel ! La suite présente une architecture potentielle pour un hexapode.
+
+
+
+
 
 \subsection*{Cahier des charges}
 
-Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur Free\-R\-T\-O\-S. Le robot sera piloté via une liaison série sans fil type Zig\-Bee.
+Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur Free\-R\-T\-O\-S tournant sur un µ\-C L\-P\-C. Le robot sera piloté via une liaison série sans fil type Zig\-Bee.
 
 \paragraph*{Mécanique}
 
@@ -44,6 +48,10 @@ Fonctionnalités\-:
 \item Rédaction d'un manuel utilisateur
 \end{DoxyItemize}
 
+
+
+
+
 \subsection*{Fonctionnement global}
 
 Le système est architecturé autour de tâches gatekeeper gérant le matériel, de tâches de contrôle et un interpréteur. Cet interpréteur est la passerelle entre le robot et le \char`\"{}monde extérieur\char`\"{} et parle \char`\"{}actions\char`\"{} côté robot et \char`\"{}commandes A\-T\char`\"{} de l'autre. Chaque tâche écoute des actions particulières et en émet vers l'interpréteur. Charge à l'interpréteur de renvoyer les actions vers d'autres tâches ou de convertir ces actions en commande A\-T et inversement et si nécessaire. Les tâches gatekeeper n'émettent pas d'actions mais peuvent en écouter (configuration par ex.).
@@ -62,8 +70,11 @@ L'interpréteur \-:
 \item converti les actions en commandes A\-T si nécessaire
 \end{DoxyItemize}
 
-Interface \-: A\-T\-Com\-Com (voir tâches gatekeeper)
+Les actions ne sont pas transmises entre tâches directement, mais via l'interpréteur.
+
+
 \begin{DoxyItemize}
+\item Interface \-: A\-T\-Com\-Com (voir tâches gatekeeper)
 \item Entrée \-: F\-I\-F\-O (Queue)
 \begin{DoxyItemize}
 \item Type de donnée \-: Action
@@ -77,7 +88,7 @@ Les tâches gatekeeper gèrent le matériel. Elle peuvent écouter des actions m
 
 \paragraph*{Tâche\-: Interface de communication (A\-T\-Com\-Com \mbox{[}A\-T Commands Communication\mbox{]})}
 
-Tâche en charge de gérer la liaison série et de transférer les commandes A\-T.
+Tâche en charge de gérer la liaison série et le transfert des commandes A\-T.
 
 
 \begin{DoxyItemize}
@@ -163,9 +174,9 @@ Tâche permettant de contrôler les mouvements de l'hexapode de façon simple (a
 
 
 \begin{DoxyItemize}
-\item Interface \-: Arm\-Control
+\item Interface \-: -\/
 \item Entrée \-: Action Movement
-\item Sortie \-: Action Movement\-Status
+\item Sortie \-: Actions Movement\-Status, Arm\-Movement
 \end{DoxyItemize}
 
 \subsubsection*{Librairies}

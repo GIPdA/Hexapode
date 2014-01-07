@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('index.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -101,9 +101,10 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Mini-projet hexapode</p>
-<p>/!\ Projet non fonctionnel</p>
+<p>/!\ Projet non fonctionnel ! La suite présente une architecture potentielle pour un hexapode.</p>
+<hr/>
 <h2>Cahier des charges</h2>
-<p>Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur FreeRTOS. Le robot sera piloté via une liaison série sans fil type ZigBee.</p>
+<p>Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur FreeRTOS tournant sur un µC LPC. Le robot sera piloté via une liaison série sans fil type ZigBee.</p>
 <h4>Mécanique</h4>
 <p>Le robot hexapode dispose de 6 pattes en 2 rangées, chaque patte est articulée en trois points via 3 servomoteurs classiques de modélisme. À cela s'ajoute une tourelle 2 axes sur l'avant équipée d'un télémètre infrarouge et d'une caméra CMUCAM2. De plus, chaque patte possède un contact TOR au bout du pied.</p>
 <h4>Électronique</h4>
@@ -131,6 +132,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>Documentation du code avec une syntaxe compatible doxygen</li>
 <li>Rédaction d'un manuel utilisateur</li>
 </ul>
+<hr/>
 <h2>Fonctionnement global</h2>
 <p>Le système est architecturé autour de tâches gatekeeper gérant le matériel, de tâches de contrôle et un interpréteur. Cet interpréteur est la passerelle entre le robot et le "monde extérieur" et parle "actions" côté robot et "commandes AT" de l'autre. Chaque tâche écoute des actions particulières et en émet vers l'interpréteur. Charge à l'interpréteur de renvoyer les actions vers d'autres tâches ou de convertir ces actions en commande AT et inversement et si nécessaire. Les tâches gatekeeper n'émettent pas d'actions mais peuvent en écouter (configuration par ex.).</p>
 <p>Une action est une structure de type Action qui contient un identifiant d'action destiné à reconnaitre le type de donnée associée. Cet ID permet également de transférer l'action aux tâches qui l'écoutent (via des queues FreeRTOS).</p>
@@ -143,8 +145,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>renvoi les actions reçues vers d'autres tâches qui les écoutent (vers Queues)</li>
 <li>converti les actions en commandes AT si nécessaire</li>
 </ul>
-<p>Interface : ATComCom (voir tâches gatekeeper)</p>
+<p>Les actions ne sont pas transmises entre tâches directement, mais via l'interpréteur.</p>
 <ul>
+<li>Interface : ATComCom (voir tâches gatekeeper)</li>
 <li>Entrée : FIFO (Queue)<ul>
 <li>Type de donnée : Action</li>
 </ul>
@@ -154,7 +157,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <h3>Tâches gatekeeper</h3>
 <p>Les tâches gatekeeper gèrent le matériel. Elle peuvent écouter des actions mais pas en émettre. Chaque tâche met une donnée à disposition des autres tâches de façon sécurisée (mutex, sémaphore ou queue).</p>
 <h4>Tâche: Interface de communication (ATComCom [AT Commands Communication])</h4>
-<p>Tâche en charge de gérer la liaison série et de transférer les commandes AT.</p>
+<p>Tâche en charge de gérer la liaison série et le transfert des commandes AT.</p>
 <ul>
 <li>Hardware : UART (LPCOpen UART)</li>
 <li>Entrée : FIFO (Queue)<ul>
@@ -213,9 +216,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <h4>Tâche: Movement</h4>
 <p>Tâche permettant de contrôler les mouvements de l'hexapode de façon simple (avancer, tourner, etc). Coordonne les mouvements des pattes pour générer des mouvements cohérents.</p>
 <ul>
-<li>Interface : ArmControl</li>
+<li>Interface : -</li>
 <li>Entrée : Action Movement</li>
-<li>Sortie : Action MovementStatus</li>
+<li>Sortie : Actions MovementStatus, ArmMovement</li>
 </ul>
 <h3>Librairies</h3>
 <p>Les librairies sont créées pour contrôler le hardware. Ce ne sont pas des tâches et ne doivent pas en dépendre.</p>
@@ -232,7 +235,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jan 6 2014 23:24:43 for Hexapode by
+    <li class="footer">Generated on Tue Jan 7 2014 13:15:18 for Hexapode by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

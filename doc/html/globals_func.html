@@ -77,6 +77,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>All</span></a></li>
       <li class="current"><a href="globals_func.html"><span>Functions</span></a></li>
       <li><a href="globals_vars.html"><span>Variables</span></a></li>
+      <li><a href="globals_type.html"><span>Typedefs</span></a></li>
+      <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
+      <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
@@ -100,7 +103,7 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +114,10 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 
 <div class="contents">
 &#160;<ul>
+<li>bDecoder_updateServoPosition()
+: <a class="el" href="decoder__servoposition_8c.html#afe5ccbea8f79bdfbd048e4ed50370b40">decoder_servoposition.c</a>
+, <a class="el" href="decoder__servoposition_8h.html#afe5ccbea8f79bdfbd048e4ed50370b40">decoder_servoposition.h</a>
+</li>
 <li>bTOR_read()
 : <a class="el" href="tordriver_8c.html#ab88a4a6e94ab7696edf23951b9afde3b">tordriver.c</a>
 , <a class="el" href="tordriver_8h.html#ab88a4a6e94ab7696edf23951b9afde3b">tordriver.h</a>
@@ -125,25 +132,29 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>PWM1_IRQHandler()
 : <a class="el" href="servodriver_8c.html#a723f02b408796deff17d7d759ac68819">servodriver.c</a>
 </li>
+<li>vATCommandsDecoderTask()
+: <a class="el" href="decoder_8c.html#a154875f5b8fb3ca4bc8bbdc76b9be0b7">decoder.c</a>
+, <a class="el" href="decoder_8h.html#a154875f5b8fb3ca4bc8bbdc76b9be0b7">decoder.h</a>
+</li>
 <li>vIR_sharp_init()
-: <a class="el" href="_i_r__sharp_8c.html#ae730cadedcb9c11f1752a6d0dbfea2df">IR_sharp.c</a>
-, <a class="el" href="_i_r__sharp_8h.html#ae730cadedcb9c11f1752a6d0dbfea2df">IR_sharp.h</a>
+: <a class="el" href="_i_r__sharp_8h.html#ae730cadedcb9c11f1752a6d0dbfea2df">IR_sharp.h</a>
+, <a class="el" href="_i_r__sharp_8c.html#ae730cadedcb9c11f1752a6d0dbfea2df">IR_sharp.c</a>
 </li>
 <li>vServoDriver_init()
-: <a class="el" href="servodriver_8h.html#a8521e5f9c329ed1e6b2ee6cfa042a4fb">servodriver.h</a>
-, <a class="el" href="servodriver_8c.html#a8521e5f9c329ed1e6b2ee6cfa042a4fb">servodriver.c</a>
+: <a class="el" href="servodriver_8c.html#a8521e5f9c329ed1e6b2ee6cfa042a4fb">servodriver.c</a>
+, <a class="el" href="servodriver_8h.html#a8521e5f9c329ed1e6b2ee6cfa042a4fb">servodriver.h</a>
 </li>
 <li>vServoDriver_setServoAngle()
-: <a class="el" href="servodriver_8c.html#a3283998484b9ff3145f2a75877ce5364">servodriver.c</a>
-, <a class="el" href="servodriver_8h.html#a3283998484b9ff3145f2a75877ce5364">servodriver.h</a>
+: <a class="el" href="servodriver_8h.html#a3283998484b9ff3145f2a75877ce5364">servodriver.h</a>
+, <a class="el" href="servodriver_8c.html#a3283998484b9ff3145f2a75877ce5364">servodriver.c</a>
 </li>
 <li>vServoDriver_setServoPosition()
-: <a class="el" href="servodriver_8c.html#afd409187c8a2332cbfc3cccaea374bb8">servodriver.c</a>
-, <a class="el" href="servodriver_8h.html#afd409187c8a2332cbfc3cccaea374bb8">servodriver.h</a>
+: <a class="el" href="servodriver_8h.html#afd409187c8a2332cbfc3cccaea374bb8">servodriver.h</a>
+, <a class="el" href="servodriver_8c.html#afd409187c8a2332cbfc3cccaea374bb8">servodriver.c</a>
 </li>
 <li>vTOR_init()
-: <a class="el" href="tordriver_8h.html#af949fdec9f98d8936abdff438ec0b3fe">tordriver.h</a>
-, <a class="el" href="tordriver_8c.html#a3e3a2610879e5cd43e7dc4ca82cb6161">tordriver.c</a>
+: <a class="el" href="tordriver_8c.html#a3e3a2610879e5cd43e7dc4ca82cb6161">tordriver.c</a>
+, <a class="el" href="tordriver_8h.html#af949fdec9f98d8936abdff438ec0b3fe">tordriver.h</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -151,7 +162,7 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jan 6 2014 23:24:43 for Hexapode by
+    <li class="footer">Generated on Tue Jan 7 2014 13:15:18 for Hexapode by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -3,12 +3,15 @@ Hexapode
 
 Mini-projet hexapode
 
-/!\ Projet non fonctionnel
+/!\ Projet non fonctionnel ! La suite présente une architecture potentielle pour un hexapode.
 
+[TOC]
+
+---------
 
 ## Cahier des charges
 
-Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur FreeRTOS. Le robot sera piloté via une liaison série sans fil type ZigBee.
+Nous sommes en charge du développement du firmware d'un robot hexapode, basé sur FreeRTOS tournant sur un µC LPC. Le robot sera piloté via une liaison série sans fil type ZigBee.
 
 #### Mécanique
  Le robot hexapode dispose de 6 pattes en 2 rangées, chaque patte est articulée en trois points via 3 servomoteurs classiques de modélisme. À cela s'ajoute une tourelle 2 axes sur l'avant équipée d'un télémètre infrarouge et d'une caméra CMUCAM2.
@@ -34,6 +37,8 @@ Fonctionnalités:
  * Rédaction d'un manuel utilisateur
 
 
+---------
+
 ## Fonctionnement global
 
 Le système est architecturé autour de tâches gatekeeper gérant le matériel, de tâches de contrôle et un interpréteur. Cet interpréteur est la passerelle entre le robot et le "monde extérieur" et parle "actions" côté robot et "commandes AT" de l'autre. Chaque tâche écoute des actions particulières et en émet vers l'interpréteur. Charge à l'interpréteur de renvoyer les actions vers d'autres tâches ou de convertir ces actions en commande AT et inversement et si nécessaire.
@@ -55,6 +60,8 @@ L'interpréteur :
  - renvoi les actions reçues vers d'autres tâches qui les écoutent (vers Queues)
  - converti les actions en commandes AT si nécessaire
 
+ Les actions ne sont pas transmises entre tâches directement, mais via l'interpréteur.
+
 
 * Interface : ATComCom (voir tâches gatekeeper)
 * Entrée : FIFO (Queue)
@@ -67,7 +74,7 @@ L'interpréteur :
 Les tâches gatekeeper gèrent le matériel. Elle peuvent écouter des actions mais pas en émettre. Chaque tâche met une donnée à disposition des autres tâches de façon sécurisée (mutex, sémaphore ou queue).
 
 #### Tâche: Interface de communication (ATComCom [AT Commands Communication])
-Tâche en charge de gérer la liaison série et de transférer les commandes AT.
+Tâche en charge de gérer la liaison série et le transfert des commandes AT.
 
 * Hardware : UART (LPCOpen UART)
 * Entrée : FIFO (Queue)

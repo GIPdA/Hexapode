@@ -1,0 +1,60 @@
+\hypertarget{decoder_8c}{\section{firmware/decoder/decoder.c File Reference}
+\label{decoder_8c}\index{firmware/decoder/decoder.\-c@{firmware/decoder/decoder.\-c}}
+}
+{\ttfamily \#include $<$lpc17xx.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}Free\-R\-T\-O\-S.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}task.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}uart0.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}decoder.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}decoder\-\_\-servoposition.\-h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \hyperlink{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389}{\-\_\-e\-Decoder\-States} \hyperlink{decoder_8c_a4af031652ad5a868190085f7c6ff22b2}{e\-Decoder\-States}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389}{\-\_\-e\-Decoder\-States} \{ \hyperlink{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389a69ddcbb699348b054125545a77f9b141}{e\-Ok}, 
+\hyperlink{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389a524c93b727d1eb403b5eff56c832c70a}{e\-Overflow}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{decoder_8c_a154875f5b8fb3ca4bc8bbdc76b9be0b7}{v\-A\-T\-Commands\-Decoder\-Task} (void $\ast$pv\-Parameters)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{decoder_8c_a4af031652ad5a868190085f7c6ff22b2}{\index{decoder.\-c@{decoder.\-c}!e\-Decoder\-States@{e\-Decoder\-States}}
+\index{e\-Decoder\-States@{e\-Decoder\-States}!decoder.c@{decoder.\-c}}
+\subsubsection[{e\-Decoder\-States}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf \-\_\-e\-Decoder\-States}  {\bf e\-Decoder\-States}}}\label{decoder_8c_a4af031652ad5a868190085f7c6ff22b2}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389}{\index{decoder.\-c@{decoder.\-c}!\-\_\-e\-Decoder\-States@{\-\_\-e\-Decoder\-States}}
+\index{\-\_\-e\-Decoder\-States@{\-\_\-e\-Decoder\-States}!decoder.c@{decoder.\-c}}
+\subsubsection[{\-\_\-e\-Decoder\-States}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-\_\-e\-Decoder\-States}}}\label{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{e\-Ok@{e\-Ok}!decoder.\-c@{decoder.\-c}}\index{decoder.\-c@{decoder.\-c}!e\-Ok@{e\-Ok}}\item[{\em 
+\hypertarget{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389a69ddcbb699348b054125545a77f9b141}{e\-Ok}\label{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389a69ddcbb699348b054125545a77f9b141}
+}]\index{e\-Overflow@{e\-Overflow}!decoder.\-c@{decoder.\-c}}\index{decoder.\-c@{decoder.\-c}!e\-Overflow@{e\-Overflow}}\item[{\em 
+\hypertarget{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389a524c93b727d1eb403b5eff56c832c70a}{e\-Overflow}\label{decoder_8c_a19bfa4c98426d0c4ecc2f9033f8fe389a524c93b727d1eb403b5eff56c832c70a}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{decoder_8c_a154875f5b8fb3ca4bc8bbdc76b9be0b7}{\index{decoder.\-c@{decoder.\-c}!v\-A\-T\-Commands\-Decoder\-Task@{v\-A\-T\-Commands\-Decoder\-Task}}
+\index{v\-A\-T\-Commands\-Decoder\-Task@{v\-A\-T\-Commands\-Decoder\-Task}!decoder.c@{decoder.\-c}}
+\subsubsection[{v\-A\-T\-Commands\-Decoder\-Task}]{\setlength{\rightskip}{0pt plus 5cm}void v\-A\-T\-Commands\-Decoder\-Task (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{pv\-Parameters}
+\end{DoxyParamCaption}
+)}}\label{decoder_8c_a154875f5b8fb3ca4bc8bbdc76b9be0b7}
